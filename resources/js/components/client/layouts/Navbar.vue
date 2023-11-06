@@ -1,5 +1,6 @@
 <template>
-    <my-loader  v-if="preloader"></my-loader>
+      <!-- Preloader -->
+
     <!-- Header -->
     <nav class="navbar navbar-fixed-top">
         <div class="container-fluid">

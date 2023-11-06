@@ -1,15 +1,14 @@
 <template>
     <div id="layout">
-            <Navbar></Navbar>
-            <RightSidebar></RightSidebar>
-            <LeftSidebar></LeftSidebar>
-            <router-view></router-view>
-
+        <Navbar></Navbar>
+        <RightSidebar></RightSidebar>
+        <LeftSidebar></LeftSidebar>
+        <router-view></router-view>
     </div>
 </template>
-<script>
 
-import {defineComponent, ref} from 'vue';
+<script>
+import { defineComponent } from 'vue';
 import Navbar from "../components/client/layouts/Navbar.vue";
 import RightSidebar from "../components/client/layouts/RightSidebar.vue";
 import LeftSidebar from "../components/client/layouts/LeftSidebar.vue";
@@ -21,37 +20,35 @@ export default defineComponent({
         LeftSidebar
     },
     data() {
-        return {
-
-        }
+        return {};
     },
     mounted() {
+        // Sử dụng `this.$nextTick` để đảm bảo toàn bộ template đã được tải xong trước khi thực hiện tác vụ trong `mounted`
+        this.$nextTick(() => {
+            const domain = window.location;
+            const appendScript = (src) => {
+                const script = document.createElement('script');
+                if (src.startsWith('http') || src.startsWith('https')) {
+                    script.src = src;
+                } else {
+                    script.src = domain + src;
+                }
+                document.head.appendChild(script);
+            };
 
-        // Function to append a script to the document's head
-        const domain = window.location;
-        const appendScript = (src) => {
-            const script = document.createElement('script');
-            if (src.startsWith('http') || src.startsWith('https')) {
-                script.src = src;
-            } else {
-                script.src = domain + src;
-            }
-            document.head.appendChild(script);
-        };
+            const scriptUrls = [
+                'https://code.jquery.com/jquery-3.6.0.min.js',
+                'assets/bundles/libscripts.bundle.js',
+                'assets/bundles/vendorscripts.bundle.js',
+                'assets/bundles/mainscripts.bundle.js',
+            ];
 
-        // Call the appendScript function for each script URL
-        const scriptUrls = [
-            'https://code.jquery.com/jquery-3.6.0.min.js',
-            'assets/bundles/libscripts.bundle.js',
-            'assets/bundles/vendorscripts.bundle.js',
-            'assets/bundles/mainscripts.bundle.js',
-        ];
-        setTimeout(scriptUrls.forEach((url) => {
-            appendScript(url);
-        }) , 3000);
+            scriptUrls.forEach((url) => {
+                appendScript(url);
+            });
+        });
     },
-    methods:{
-    }
+    methods: {},
 });
 </script>
 

@@ -24,5 +24,9 @@
 </head>
 <body>
     <div id="app"></div>
+    <script src="{{asset('https://code.jquery.com/jquery-3.6.0.min.js')}}" defer></script>
+    <script src="{{asset('assets/bundles/libscripts.bundle.js')}}" defer></script>
+    <script src="{{asset('assets/bundles/vendorscripts.bundle.js')}}" defer></script>
+    <script src="{{asset('assets/bundles/mainscripts.bundle.js')}}" defer></script>
 </body>
 </html>

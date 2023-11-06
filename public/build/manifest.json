@@ -9,12 +9,12 @@
       "resources/js/layouts/client.vue",
       "resources/js/views/client/Home.vue"
     ],
-    "file": "assets/app-da9ea531.js",
+    "file": "assets/app-7c8d18b6.js",
     "isEntry": true,
     "src": "resources/js/app.js"
   },
   "resources/js/layouts/client.vue": {
-    "file": "assets/client-b70cc3ec.js",
+    "file": "assets/client-4a90718d.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -22,7 +22,7 @@
     "src": "resources/js/layouts/client.vue"
   },
   "resources/js/views/client/Home.vue": {
-    "file": "assets/Home-feb01b41.js",
+    "file": "assets/Home-a102a50b.js",
     "imports": [
       "resources/js/app.js"
     ],

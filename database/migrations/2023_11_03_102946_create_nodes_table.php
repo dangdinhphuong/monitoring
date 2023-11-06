@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('nodes', function (Blueprint $table) {
             $table->id();
+            $table->string('model')->unique();
             $table->string('name');
             $table->boolean('status')->default(false);
             $table->timestamps();
