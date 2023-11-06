@@ -25,7 +25,11 @@ export default defineComponent({
     mounted() {
         // Sử dụng `this.$nextTick` để đảm bảo toàn bộ template đã được tải xong trước khi thực hiện tác vụ trong `mounted`
         this.$nextTick(() => {
-            const domain = window.location;
+       // Lấy URL hiện tại
+            var currentProtocol = window.location.protocol;
+            var currentDomain = window.location.hostname;
+            var domain = currentProtocol + '//' + currentDomain;
+            console.log(domain);
             const appendScript = (src) => {
                 const script = document.createElement('script');
                 if (src.startsWith('http') || src.startsWith('https')) {
@@ -38,9 +42,9 @@ export default defineComponent({
 
             const scriptUrls = [
                 'https://code.jquery.com/jquery-3.6.0.min.js',
-                'assets/bundles/libscripts.bundle.js',
-                'assets/bundles/vendorscripts.bundle.js',
-                'assets/bundles/mainscripts.bundle.js',
+                '/assets/bundles/libscripts.bundle.js',
+                '/assets/bundles/vendorscripts.bundle.js',
+                '/assets/bundles/mainscripts.bundle.js',
             ];
 
             scriptUrls.forEach((url) => {

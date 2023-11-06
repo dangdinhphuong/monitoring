@@ -7,14 +7,15 @@
   "resources/js/app.js": {
     "dynamicImports": [
       "resources/js/layouts/client.vue",
-      "resources/js/views/client/Home.vue"
+      "resources/js/views/client/Home.vue",
+      "resources/js/views/client/Tables.vue"
     ],
-    "file": "assets/app-cd3f5502.js",
+    "file": "assets/app-2414e577.js",
     "isEntry": true,
     "src": "resources/js/app.js"
   },
   "resources/js/layouts/client.vue": {
-    "file": "assets/client-0ad63024.js",
+    "file": "assets/client-6a418a32.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -22,11 +23,19 @@
     "src": "resources/js/layouts/client.vue"
   },
   "resources/js/views/client/Home.vue": {
-    "file": "assets/Home-a18e8b4e.js",
+    "file": "assets/Home-ccadacad.js",
     "imports": [
       "resources/js/app.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/views/client/Home.vue"
+  },
+  "resources/js/views/client/Tables.vue": {
+    "file": "assets/Tables-4f48e9fb.js",
+    "imports": [
+      "resources/js/app.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/views/client/Tables.vue"
   }
 }

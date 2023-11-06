@@ -9,6 +9,11 @@ const client = [
                 name: "home",
                 component: () => import("../views/client/Home.vue")
             },
+            {
+                path: "/tables",
+                name: "tables",
+                component: () => import("../views/client/Tables.vue")
+            },
         ]
     }
 ];
