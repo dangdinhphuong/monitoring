@@ -1,7 +1,7 @@
 export default {
     install: (app) => {
         const componentList = {
-            'my-loader': './components/client/layouts/Loader.vue',
+          //  'my-loader': './components/client/layouts/Loader.vue',
         };
 
         for (const [name, path] of Object.entries(componentList)) {

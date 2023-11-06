@@ -1,6 +1,4 @@
 <template>
-      <!-- Preloader -->
-
     <!-- Header -->
     <nav class="navbar navbar-fixed-top">
         <div class="container-fluid">
