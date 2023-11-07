@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('latitude');
             $table->string('longitude');
             $table->timestamps();
-            $table->foreign('model_id')->references('model')->on('nodes'); // Thay 'notes' thành 'nodes'
+            $table->foreign('model_id')->references('model')->on('channel'); // Thay 'notes' thành 'nodes'
         });
     }
 

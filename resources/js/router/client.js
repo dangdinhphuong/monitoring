@@ -14,9 +14,9 @@ const client = [
                 name: "tables",
                 component: () => import("../views/client/Tables.vue")
             },{
-                path: "/notes",
-                name: "notes",
-                component: () => import("../views/client/Notes.vue")
+                path: "/channel",
+                name: "channel",
+                component: () => import("../views/client/Channel.vue")
             },
         ]
     }

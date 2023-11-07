@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\ChanelController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+
+
+Route::middleware(['noauth'])->group(function () {
+    Route::get('channel', [ChanelController::class, 'index']);
+    Route::post('channel', [ChanelController::class, 'store']);
 });

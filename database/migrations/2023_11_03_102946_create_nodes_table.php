@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('nodes', function (Blueprint $table) {
+        Schema::create('channel', function (Blueprint $table) {
             $table->id();
             $table->string('model')->unique();
             $table->string('name');

@@ -9,38 +9,45 @@
       "resources/js/layouts/client.vue",
       "resources/js/views/client/Home.vue",
       "resources/js/views/client/Tables.vue",
-      "resources/js/views/client/Notes.vue"
+      "resources/js/views/client/Channel.vue"
     ],
-    "file": "assets/app-77ca93c8.js",
+    "file": "assets/app-8c1a232b.js",
     "isEntry": true,
     "src": "resources/js/app.js"
   },
   "resources/js/layouts/client.vue": {
-    "file": "assets/client-a962aee9.js",
+    "file": "assets/client-3ed2b88d.js",
     "imports": [
       "resources/js/app.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/layouts/client.vue"
   },
+  "resources/js/views/client/Channel.css": {
+    "file": "assets/Channel-b6cc1770.css",
+    "src": "resources/js/views/client/Channel.css"
+  },
+  "resources/js/views/client/Channel.vue": {
+    "css": [
+      "assets/Channel-b6cc1770.css"
+    ],
+    "file": "assets/Channel-b60310cd.js",
+    "imports": [
+      "resources/js/app.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/views/client/Channel.vue"
+  },
   "resources/js/views/client/Home.vue": {
-    "file": "assets/Home-347443f2.js",
+    "file": "assets/Home-1c38c34f.js",
     "imports": [
       "resources/js/app.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/views/client/Home.vue"
   },
-  "resources/js/views/client/Notes.vue": {
-    "file": "assets/Notes-7580225d.js",
-    "imports": [
-      "resources/js/app.js"
-    ],
-    "isDynamicEntry": true,
-    "src": "resources/js/views/client/Notes.vue"
-  },
   "resources/js/views/client/Tables.vue": {
-    "file": "assets/Tables-35d86507.js",
+    "file": "assets/Tables-b30b6684.js",
     "imports": [
       "resources/js/app.js"
     ],

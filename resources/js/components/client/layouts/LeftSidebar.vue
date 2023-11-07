@@ -24,7 +24,7 @@
             <nav id="left-sidebar-nav" class="sidebar-nav">
                 <ul id="main-menu" class="metismenu">
                     <li :class="{ active: $route.name == 'home' }"><a :href="`/`"><i class="icon-home"></i><span>Dashboard</span></a></li>
-                    <li :class="{ active: $route.name == 'notes' }"><a :href="`/notes`"><i class="icon-tag"></i><span>Notes</span></a></li>
+                    <li :class="{ active: $route.name == 'channel' }"><a :href="`/channel`"><i class="icon-tag"></i><span>Channel</span></a></li>
                     <li><a href="app-taskboard.html"><i class="icon-list"></i><span>Stations</span></a></li>
                     <li :class="{ active: $route.name == 'tables' }"><a :href="`/tables`"><i class="icon-tag"></i><span>Tables</span></a></li>
                     <li>
