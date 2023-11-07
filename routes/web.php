@@ -11,5 +11,5 @@ Route::post('login', [LoginController::class, 'store'])->name('loginStore');
 Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 Route::name('admin.')->middleware('AdminLogin')->prefix('')->group(function () {
     Route::get('/', [DashboadContrller::class, 'index'])->name('dashboad');
-    Route::get('/{any}', [DashboadContrller::class, 'index'])->name('dashboad');
+    Route::get('/{any}', [DashboadContrller::class, 'index']);
 });
