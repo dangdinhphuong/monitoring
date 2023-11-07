@@ -8,14 +8,15 @@
     "dynamicImports": [
       "resources/js/layouts/client.vue",
       "resources/js/views/client/Home.vue",
-      "resources/js/views/client/Tables.vue"
+      "resources/js/views/client/Tables.vue",
+      "resources/js/views/client/Notes.vue"
     ],
-    "file": "assets/app-2414e577.js",
+    "file": "assets/app-77ca93c8.js",
     "isEntry": true,
     "src": "resources/js/app.js"
   },
   "resources/js/layouts/client.vue": {
-    "file": "assets/client-6a418a32.js",
+    "file": "assets/client-a962aee9.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -23,15 +24,23 @@
     "src": "resources/js/layouts/client.vue"
   },
   "resources/js/views/client/Home.vue": {
-    "file": "assets/Home-ccadacad.js",
+    "file": "assets/Home-347443f2.js",
     "imports": [
       "resources/js/app.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/views/client/Home.vue"
   },
+  "resources/js/views/client/Notes.vue": {
+    "file": "assets/Notes-7580225d.js",
+    "imports": [
+      "resources/js/app.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/views/client/Notes.vue"
+  },
   "resources/js/views/client/Tables.vue": {
-    "file": "assets/Tables-4f48e9fb.js",
+    "file": "assets/Tables-35d86507.js",
     "imports": [
       "resources/js/app.js"
     ],
