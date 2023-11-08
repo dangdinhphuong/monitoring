@@ -1,32 +1,65 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document222</title>
+    <title>@yield('title')</title>
 
-    <link href="{{asset('assets/vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
-    <link rel="stylesheet" href="{{asset('assets/vendor/bootstrap/css/bootstrap.min.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/vendor/font-awesome/css/font-awesome.min.css')}}">
+    <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/font-awesome/css/font-awesome.min.css') }}">
 
-    <link rel="stylesheet" href="{{asset('assets/vendor/charts-c3/plugin.css')}}" />
-    <link rel="stylesheet" href="{{asset('assets/vendor/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/vendor/chartist/css/chartist.min.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/vendor/toastr/toastr.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/charts-c3/plugin.css') }}" />
+    <link rel="stylesheet"
+        href="{{ asset('assets/vendor/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/chartist/css/chartist.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/toastr/toastr.min.css') }}">
     <!-- MAIN CSS -->
-    <link rel="stylesheet" href="{{asset('assets/css/main.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/css/color_skins.css')}}">
-
-    @vite(['resources/js/app.js','resources/css/variable.css'])
+    <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/color_skins.css') }}">
 </head>
-<body>
-    <div id="app"></div>
-    <script src="{{asset('https://code.jquery.com/jquery-3.6.0.min.js')}}" defer></script>
-    <script src="{{asset('assets/bundles/libscripts.bundle.js')}}" defer></script>
-    <script src="{{asset('assets/bundles/vendorscripts.bundle.js')}}" defer></script>
-    <script src="{{asset('assets/bundles/mainscripts.bundle.js')}}" defer></script>
+
+<body class="theme-orange">
+
+    <!-- Page Loader -->
+    <div class="page-loader-wrapper">
+        <div class="loader">
+            <div class="m-t-30"><img src="https://wrraptheme.com/templates/hexabit/html/assets/images/icon-light.svg"
+                    width="48" height="48" alt="HexaBit"></div>
+            <p>Please wait...</p>
+        </div>
+    </div>
+    <!-- Overlay For Sidebars -->
+    <div class="overlay"></div>
+
+    <div id="wrapper">
+
+
+
+        @include('admin.components.navbar')
+
+
+        @include('admin.components.rightbar')
+
+
+        @include('admin.components.leftbar')
+
+        @yield('content')
+    </div>
+
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ asset('assets/bundles/libscripts.bundle.js') }}"></script>
+    <script src="{{ asset('assets/bundles/vendorscripts.bundle.js') }}"></script>
+    <script src="{{ asset('assets/bundles/mainscripts.bundle.js') }}"></script>
+    <script src="{{ asset('assets/bundles/c3.bundle.js') }}"></script>
+    <script src="{{ asset('assets/bundles/chartist.bundle.js') }}"></script>
+    <script src="{{ asset('assets/vendor/toastr/toastr.js') }}"></script>
+    <script src="{{ asset('assets/js/index.js') }}"></script>
 </body>
+
 </html>
