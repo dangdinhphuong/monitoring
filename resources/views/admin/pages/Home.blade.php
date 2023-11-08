@@ -458,6 +458,92 @@
 
     </div>
 </div>
+@extends('admin.app')
+@section('title', 'Dasboard')
+@section('content')
+<div id="main-content">
+    <div class="block-header">
+        <div class="row clearfix">
+            <div class="col-md-6 col-sm-12">
+                <h2>Dashboard</h2>
+            </div>
+            <div class="col-md-6 col-sm-12 text-right">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html"><i class="icon-home"></i></a></li>
+                    <li class="breadcrumb-item active">Dashboard</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+ 
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-3 col-md-12">
+                <div class="card" style="height: 80vh">
+                    <div class="header">
+                        <div class="form-group">
+                            <label>Channel</label>
+                            <select class="form-control" id="exampleFormControlSelect1">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                              </select>
+                        </div>
+                    </div>
+                    <div class="body social_counter">
+                        <ul class=" list-unstyled basic-list">
+                            <li><i class=" m-r-5"></i> Potenz Hydrogen: <span
+                                    class="badge badge-primary">10 pH</span></li>
+                            <li><i class=" m-r-5"></i> Turbidity : <span
+                                    class="badge-purple badge">10 NTU</span></li>
+                            <li><i class=" m-r-5"></i> Temperature :<span
+                                    class="badge-success badge">10 °C</span></li>
+                            <li><i class=" m-r-5"></i>DO :<span
+                                    class="badge-info badge">74 mg/L</span></li>
+                            <li><i class=" m-r-5"></i> Latitude:<span
+                                    class="badge-info badge">10° N</span></li>
+                            <li><i class=" m-r-5"></i> Longitude:<span
+                                    class="badge-info badge">10° W</span></li>
+                        </ul>
+                    </div>
+                </div>
+   
+            </div>
+            <div class="col-lg-9 col-md-12">
+                <div class="card" style="height: 80vh">
+                    <div class="header bline">
+                        <div class="form-group col-lg-3 col-3">
+                            <select class="form-control" id="exampleFormControlSelect1">
+                                <option>Area Chart</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                              </select>
+                        </div>
+                        <ul class="header-dropdown dropdown dropdown-animated scale-left">
+                            <li><h3>22:30 PM</h3> </li>
+                        </ul>
+                    </div>
+                    <div class="body">
+                        <div id="User_Statistics" class="mt-2" style="height: 400px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+@endsection
+
+@section('javascript')
+<script type="text/javascript">
+
+</script>
+@endsection
 @endsection
 
 @section('javascript')

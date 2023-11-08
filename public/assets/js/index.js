@@ -103,4 +103,63 @@ $(function() {
             top: 0
         },
     });
+    function getRandomDataArray(dataName, length) {
+        var dataArray = [dataName];
+        for (var i = 0; i < length; i++) {
+            var randomNumber = Math.random() * 100; // Tạo số ngẫu nhiên trong khoảng từ 0 đến 100
+            dataArray.push(randomNumber.toFixed(1)); // Định dạng số và thêm vào mảng
+        }
+        return dataArray;
+    }
+
+    function createChart() {
+        console.log(getRandomDataArray('data1', 10))
+        var chart = c3.generate({
+
+            bindto: '#User_Statistics', // id of chart wrapper
+            data: {
+                columns: [
+                    // each columns data
+                    getRandomDataArray('data1', 10),
+                    getRandomDataArray('data2', 10),
+                    getRandomDataArray('data3', 10),
+                    getRandomDataArray('data4', 10)
+                ],
+
+                labels: true,
+                type: 'line', // default type of chart
+                colors: {
+                    'data1': hexabit.colors["orange"],
+                    'data2': hexabit.colors["green"],
+                    'data3': hexabit.colors["gray-light"],
+                    'data4': hexabit.colors["red"]
+                },
+                names: {
+                    // name of each serie
+                    'data1': 'Bitcoin',
+                    'data2': 'NEO',
+                    'data3': 'ETH',
+                    'data4': 'red'
+                }
+            },
+
+            axis: {
+                x: {
+                    type: 'category',
+                    // name of each category
+                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'July', 'Aug', 'Sept', 'Oct']
+                },
+            },
+
+            legend: {
+                show: true, //hide legend
+            },
+
+            padding: {
+                bottom: 10,
+                top: 0
+            },
+        });
+    }
+    setInterval(createChart(), 1000);
 });
