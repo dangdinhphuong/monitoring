@@ -1,0 +1,59 @@
+@extends('admin.app')
+@section('title', 'Dasboard')
+@section('content')
+<div class="body">
+    <canvas id="myChart"
+    style="height: 400px!important; display: block; box-sizing: border-box; width: 1564px;"
+    width="1564" height="400px"></canvas>
+</div>
+@endsection
+
+@section('javascript')
+<script>
+    const ctx = document.getElementById('myChart');
+  
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        datasets: [
+        {
+            label: "Temperature",
+            backgroundColor: "rgb(255, 99, 132)",
+            borderColor: "rgb(255, 99, 132)",
+            data: [12, 19, 3, 5, 5, 3],
+            tension: 0.3
+        },
+        {
+            label: "Pressure",
+            backgroundColor: "rgb(205, 0, 255)",
+            borderColor: "rgb(205, 0, 255)",
+            data: [12, 60, 3, 5, 2, 3],
+            tension: 0.3
+        },
+        {
+            label: "Altitude sea",
+            backgroundColor: "rgb(17, 144, 225)",
+            borderColor: "rgb(17, 144, 225)",
+            data: [45, 19, 3, 5, 2, 32],
+            tension: 0.3
+        },
+        {
+            label: "Altitude cm",
+            backgroundColor: "rgb(129, 255, 17)",
+            borderColor: "rgb(129, 255, 17)",
+            data: [14, 9, 34, 5, 2, 3],
+            tension: 0.3
+        },
+    ]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  </script>
+@endsection

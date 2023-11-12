@@ -11,10 +11,13 @@ use Exception;
 
 class ChanelController extends Controller
 {
-    public function index(){
-        return Channel::get();
+    public function index()
+    {
+        $channels = Channel::get();
+        return view('admin.pages.Channel');
     }
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'model' => 'required|unique:channel',
@@ -31,12 +34,15 @@ class ChanelController extends Controller
             ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY); // HTTP status code 422
         }
         try {
-       $data = Channel::create($request->all());
-    } catch (Exception $exception) {
-        return response()->json([
-            'errors' => $exception,
-        ], JsonResponse::HTTP_INTERNAL_SERVER_ERROR); // HTTP status code 422
+            $data = Channel::create($request->all());
+        } catch (Exception $exception) {
+            return response()->json([
+                'errors' => $exception,
+            ], JsonResponse::HTTP_INTERNAL_SERVER_ERROR); // HTTP status code 422
+        }
+        return response()->json(['message' => 'Dữ liệu đã được lưu thành công', 'data' => $data], JsonResponse::HTTP_OK);
     }
-        return response()->json(['message' => 'Dữ liệu đã được lưu thành công','data'=> $data], JsonResponse::HTTP_OK);
+    public function getAll(){
+        return  Channel::get();
     }
 }

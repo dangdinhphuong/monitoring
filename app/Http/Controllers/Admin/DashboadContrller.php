@@ -4,13 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\ChanelController;
 
 class DashboadContrller extends Controller
 {
-    public function __construct(){
-
+    public $chanelController;
+    public function __construct( ChanelController $chanelController){
+        $this->chanelController = $chanelController;
     }
     public function index(){
-        return view('admin.pages.Home');
+        $channels = $this->chanelController->getAll();
+        return view('admin.pages.Home', compact('channels'));
     }
 }

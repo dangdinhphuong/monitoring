@@ -57,9 +57,12 @@
     <script src="{{ asset('assets/bundles/vendorscripts.bundle.js') }}"></script>
     <script src="{{ asset('assets/bundles/mainscripts.bundle.js') }}"></script>
     <script src="{{ asset('assets/bundles/c3.bundle.js') }}"></script>
-    <script src="{{ asset('assets/bundles/chartist.bundle.js') }}"></script>
+    {{-- <script src="{{ asset('assets/bundles/chartist.bundle.js') }}"></script> --}}
     <script src="{{ asset('assets/vendor/toastr/toastr.js') }}"></script>
     <script src="{{ asset('assets/js/index.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    @yield('javascript')
 </body>
 
 </html>
