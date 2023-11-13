@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('datas', function (Blueprint $table) {
             $table->id();
-            $table->string('model_id');
+            $table->string('channel_id');
             $table->integer('ph');
             $table->integer('ntu');
             $table->integer('temperature');
@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('latitude');
             $table->string('longitude');
             $table->timestamps();
-            $table->foreign('model_id')->references('model')->on('channel'); // Thay 'notes' thành 'nodes'
+            $table->foreign('channel_id')->references('channel')->on('channel'); // Thay 'notes' thành 'nodes'
         });
     }
 

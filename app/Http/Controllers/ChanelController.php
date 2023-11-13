@@ -12,16 +12,18 @@ use Exception;
 class ChanelController extends Controller
 {
     public function index(){
-        return Channel::get();
+       $channel =  Channel::get();
+        return view('admin.pages.Channel', compact('channel'));
     }
+
     public function store(Request $request){
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'model' => 'required|unique:channel',
+            'channel' => 'required|unique:channel',
         ], [
             'name.required' => 'Vui lòng nhập dữ liệu name',
-            'model.required' => 'Vui lòng nhập dữ liệu model',
-            'model.unique' => 'Dữ liệu model đã tồn tại',
+            'channel.required' => 'Vui lòng nhập dữ liệu channel',
+            'channel.unique' => 'Dữ liệu channel đã tồn tại',
         ]);
 
         if ($validator->fails()) {
