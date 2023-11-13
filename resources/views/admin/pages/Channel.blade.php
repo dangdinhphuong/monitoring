@@ -147,7 +147,7 @@
 @section('javascript')
     <script>
         var channels = {!! json_encode($channel) !!};
-
+         console.log('asset','{{asset("/api/channel")}}')
 
         // thêm mới 
         function submitForm() {
@@ -160,7 +160,7 @@
 
             // Send Ajax request
             $.ajax({
-                    url: 'http://monitoring.test/api/channel',
+                    url: '{{asset("/api/channel")}}',
                     type: 'POST',
                     contentType: 'application/json',
                     data: JSON.stringify(formData),
@@ -222,7 +222,7 @@
 
             // Send Ajax request
             $.ajax({
-                    url: 'http://monitoring.test/api/channel',
+                    url: '{{asset("/api/channel")}}',
                     type: 'POST',
                     contentType: 'application/json',
                     data: JSON.stringify(formData),
@@ -272,7 +272,7 @@
 
             // Send Ajax request
             $.ajax({
-                    url: 'http://monitoring.test/api/channel',
+                    url: '{{asset("/api/channel")}}',
                     type: 'PUT',
                     contentType: 'application/json',
                     data: JSON.stringify(formData),
@@ -338,7 +338,7 @@
         function deleteChannel(id) {
             // Gửi Ajax request để xóa dữ liệu
             $.ajax({
-                    url: 'http://monitoring.test/api/channel/' + id,
+                    url: '{{asset("/api/channel")}}/' + id,
                     type: 'DELETE',
                     dataType: 'json',
                 })
