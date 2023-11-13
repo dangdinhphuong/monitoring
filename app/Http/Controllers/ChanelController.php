@@ -84,6 +84,9 @@ class ChanelController extends Controller
     public function getAll(){
         return  Channel::get();
     }
+    public function getChannelActive(){
+        return  Channel::where('status', true)->get();
+    }
     public function delete($id){
         try {
             Channel::find($id)->delete();
@@ -94,4 +97,5 @@ class ChanelController extends Controller
         }
         return response()->json(['message' => 'Dữ liệu đã được xóa thành công'], JsonResponse::HTTP_OK);
     }
+
 }

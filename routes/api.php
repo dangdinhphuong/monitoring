@@ -19,4 +19,6 @@ use App\Http\Controllers\ChanelController;
 Route::middleware(['noauth'])->group(function () {
     Route::get('channel', [ChanelController::class, 'index']);
     Route::post('channel', [ChanelController::class, 'store']);
+   Route::put('channel', [ChanelController::class, 'edit']);
+   Route::delete('channel/{id}', [ChanelController::class, 'delete']);
 });

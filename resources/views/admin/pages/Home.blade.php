@@ -23,26 +23,15 @@
                         <div class="header">
                             <div class="form-group">
                                 <label>Channel</label>
-                                <select class="form-control" id="exampleFormControlSelect1">
+                                <select class="form-control" id="channels">
                                     @foreach ($channels as $channel)
-                                        <option value="{{ $channel->model }}">{{ $channel->name }}</option>
+                                        <option value="{{ $channel->channel }}">{{ $channel->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
                         <div class="body social_counter">
                             <ul class=" list-unstyled basic-list" id='fields'>
-                                {{-- <li><i class=" m-r-5"></i> Potenz Hydrogen: <span class="badge badge-primary">10 pH</span></li>
-                            <li><i class=" m-r-5"></i> Turbidity : <span
-                                    class="badge-purple badge">10 NTU</span></li>
-                            <li><i class=" m-r-5"></i> Temperature :<span
-                                    class="badge-success badge">10 °C</span></li>
-                            <li><i class=" m-r-5"></i>DO :<span
-                                    class="badge-info badge">74 mg/L</span></li>
-                            <li><i class=" m-r-5"></i> Latitude:<span
-                                    class="badge-info badge">10° N</span></li>
-                            <li><i class=" m-r-5"></i> Longitude:<span
-                                    class="badge-info badge">10° W</span></li> --}}
                             </ul>
                         </div>
                     </div>
@@ -79,108 +68,38 @@
 
 @section('javascript')
     <script>
-        var dataMonitoring = {
-            "channel": {
-                "id": 2187184,
-                "name": "BXD",
-                "description": "De tai Bo Xay Dung",
-                "latitude": "0.0",
-                "longitude": "0.0",
-                "field1": "Độ pH",
-                "field2": "Độ đục (Turbidity)",
-                "field3": "Nhiệt độ",
-                "field4": "TDS",
-                "field5": "GPRS1",
-                "field6": "GPRS2",
-                "field7": "Power",
-                "created_at": "2023-06-13T10:18:23Z",
-                "updated_at": "2023-11-10T08:55:02Z",
-                "last_entry_id": 3411
-            },
-            "feeds": [{
-                    "created_at": "2023-11-11T09:14:34Z",
-                    "entry_id": 3407,
-                    "field1": random(),
-                    "field2": random(),
-                    "field3": random(),
-                    "field4": random(),
-                    "field5": random(),
-                    "field6": random(),
-                    "field7": random(),
-                },
-                {
-                    "created_at": "2023-11-11T09:14:50Z",
-                    "entry_id": 3408,
-                    "field1": random(),
-                    "field2": random(),
-                    "field3": random(),
-                    "field4": random(),
-                    "field5": random(),
-                    "field6": random(),
-                    "field7": random(),
-                },
-                {
-                    "created_at": "2023-11-11T09:15:05Z",
-                    "entry_id": 3409,
-                    "field1": random(),
-                    "field2": random(),
-                    "field3": random(),
-                    "field4": random(),
-                    "field5": random(),
-                    "field6": random(),
-                    "field7": random(),
-                },
-                {
-                    "created_at": "2023-11-12T02:08:22Z",
-                    "entry_id": 3410,
-                    "field1": random(),
-                    "field2": random(),
-                    "field3": random(),
-                    "field4": random(),
-                    "field5": random(),
-                    "field6": random(),
-                    "field7": random(),
-                },
-                {
-                    "created_at": "2023-11-12T03:47:19Z",
-                    "entry_id": 3412,
-                    "field1": random(),
-                    "field2": random(),
-                    "field3": random(),
-                    "field4": random(),
-                    "field5": random(),
-                    "field6": random(),
-                    "field7": random(),
-                }
-            ]
-        };
+        var channelId = $('#channels').val();
+        if (channelId) {
+            action();
+        }
+        var dataMonitoring = [];
         var dataset = [];
 
         function action() {
-            const apiURL = 'https://api.thingspeak.com/channels/2187184/fields/1.json';
+            const id = this.channelId;
+            const apiURL = 'https://api.thingspeak.com/channels/' + id + '/fields/1.json';
             const apiKey = 'M18ETIVKUBNO8P5I';
             const results = 20;
 
             // Gọi fetchDataFromApi và sau đó sử dụng dữ liệu trả về
             fetchDataFromApi(apiURL, apiKey, results)
                 .then(response => {
-            // Sắp xếp mảng feeds theo thứ tự tăng dần của entry_id
-            response.feeds.sort(function(a, b) {
-                return a.entry_id - b.entry_id;
-            });
+                    // Sắp xếp mảng feeds theo thứ tự tăng dần của entry_id
+                    response.feeds.sort(function(a, b) {
+                        return a.entry_id - b.entry_id;
+                    });
 
-            dataMonitoring = response;
-            console.log(response);
-            // Gọi các hàm sử dụng dữ liệu ở đây
-            renderFields();
-            console.log("Channel Info:", dataMonitoring.channel);
-            console.log("Feeds:", dataMonitoring.feeds);
+                    dataMonitoring = response;
+                    console.log(response);
+                    // Gọi các hàm sử dụng dữ liệu ở đây
+                    renderFields();
+                    console.log("Channel Info:", dataMonitoring.channel);
+                    console.log("Feeds:", dataMonitoring.feeds);
                 })
                 .catch(error => {
                     console.error('Error:', error);
                 });
         }
-        action();
 
         // Hàm để gọi API và trả về một promise
         function fetchDataFromApi(apiURL, apiKey, results) {
@@ -204,28 +123,6 @@
                 });
             });
         }
-
-        // Sử dụng promise
-        // $(document).ready(function() {
-        //     const apiURL = 'https://api.thingspeak.com/channels/2187184/fields/1.json';
-        //     const apiKey = 'M18ETIVKUBNO8P5I';
-        //     const results = 20;
-
-        //     // Gọi fetchDataFromApi và sau đó sử dụng dữ liệu trả về
-        //     fetchDataFromApi(apiURL, apiKey, results)
-        //         .then(response => {
-        //             dataMonitoring = response;
-        //             console.log(response);
-        //             // Gọi các hàm sử dụng dữ liệu ở đây
-        //             renderFields();
-        //             console.log("Channel Info:", dataMonitoring.channel);
-        //             console.log("Feeds:", dataMonitoring.feeds);
-        //         })
-        //         .catch(error => {
-        //             console.error('Error:', error);
-        //         });
-        // });
-
 
         function renderFields() {
             var feed = getLatestFeed(dataMonitoring.feeds);

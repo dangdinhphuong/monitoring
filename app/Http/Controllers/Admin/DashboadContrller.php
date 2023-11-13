@@ -13,7 +13,7 @@ class DashboadContrller extends Controller
         $this->chanelController = $chanelController;
     }
     public function index(){
-        $channels = $this->chanelController->getAll();
+        $channels = $this->chanelController->getChannelActive();
         return view('admin.pages.Home', compact('channels'));
     }
 }

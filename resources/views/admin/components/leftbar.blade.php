@@ -26,11 +26,20 @@
         </div>
         <nav id="left-sidebar-nav" class="sidebar-nav">
             <ul id="main-menu" class="metismenu">
-                <li class="active"><a href="index.html"><i class="icon-home"></i><span>Dashboard</span></a>
-                </li>
-                <li><a href="app-inbox.html"><i class="icon-envelope"></i><span>Inbox</span></a></li>
-                <li><a href="app-chat.html"><i class="icon-bubbles"></i><span>Chat</span></a></li>
-                <li>
+                    <li class="{{ request()->routeIs('admin.dashboad') ? 'active' : '' }}">
+                        <a href="{{ route('admin.dashboad') }}">
+                            <i class="icon-home"></i><span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="{{ request()->routeIs('admin.channel-list') ? 'active' : '' }}">
+                        <a href="{{ route('admin.channel-list') }}">
+                            <i class="icon-list"></i><span>Channels</span>
+                        </a>
+                    </li>
+               
+                {{-- <li><a href="app-inbox.html"><i class="icon-envelope"></i><span>Inbox</span></a></li>
+                <li><a href="app-chat.html"><i class="icon-bubbles"></i><span>Chat</span></a></li> --}}
+                {{-- <li>
                     <a href="#uiElements" class="has-arrow"><i class="icon-diamond"></i><span>UI
                             Elements</span></a>
                     <ul>
@@ -154,7 +163,7 @@
                         <li><a href="map-jvectormap.html">jVector Map</a></li>
                         <li><a href="map-yandex.html">Yandex Map</a></li>
                     </ul>
-                </li>
+                </li> --}}
             </ul>
         </nav>
     </div>
