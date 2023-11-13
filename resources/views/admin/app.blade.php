@@ -57,6 +57,7 @@
 <script src="{{ asset('assets/bundles/chartist.bundle.js') }}"></script>
 <script src="{{ asset('assets/js/index.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 @yield('javascript')
 <script>
     $(".page-loader-wrapper").fadeOut()
