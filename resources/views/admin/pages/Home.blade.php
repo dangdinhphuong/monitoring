@@ -23,7 +23,7 @@
                         <div class="header">
                             <div class="form-group">
                                 <label>Channel</label>
-                                <select class="form-control" id="channels">
+                                <select class="form-control" id="channels" onchange="action()">
                                     @foreach ($channels as $channel)
                                         <option value="{{ $channel->channel }}">{{ $channel->name }}</option>
                                     @endforeach
@@ -68,15 +68,11 @@
 
 @section('javascript')
     <script>
-        var channelId = $('#channels').val();
-        if (channelId) {
-            action();
-        }
+        action();
         var dataMonitoring = [];
         var dataset = [];
-
         function action() {
-            const id = this.channelId;
+            const id = $('#channels').val();
             const apiURL = 'https://api.thingspeak.com/channels/' + id + '/fields/1.json';
             const apiKey = 'M18ETIVKUBNO8P5I';
             const results = 20;
@@ -97,6 +93,7 @@
                     console.log("Feeds:", dataMonitoring.feeds);
                 })
                 .catch(error => {
+                    toastr.error('Không thể tải dữ liệu ');
                     console.error('Error:', error);
                 });
         }
@@ -126,15 +123,16 @@
 
         function renderFields() {
             var feed = getLatestFeed(dataMonitoring.feeds);
+            renderHtml = ``;
             for (var key in dataMonitoring.channel) {
                 if (dataMonitoring.channel.hasOwnProperty(key) && key.startsWith('field')) {
                     getDatasetChannel(key)
 
-                    renderHtml =
+                    renderHtml +=
                         `<li><i class=" m-r-5"></i> ${dataMonitoring.channel[key]}: <span class="badge badge-primary" id="">${feed[key] ?? null}</span></li>`
-                    $('#fields').append(renderHtml);
                 }
             }
+            $('#fields').html(renderHtml);
             console.log(dataset);
             renderChart(dataset, 'line', arrayField("created_at", 'time'))
         }
