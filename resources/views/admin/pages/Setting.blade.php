@@ -42,9 +42,9 @@
                                             <th>Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="channel">
+                                    <tbody id="setting-config">
                                         @foreach ($settings as $key => $setting)
-                                            <tr id='channel_{{ $setting->id }}'>
+                                            <tr id='setting_{{ $setting->id }}'>
                                                 <td>{{ $setting->id }}</td>
 
                                                 <td><span class="text-info">{{ $setting->key }}</span></td>
@@ -96,7 +96,8 @@
                             <label>Title</label>
                             <input type="text" name="title" class="form-control" required>
                         </div>
-                        <img src="{{asset("storage/config/PBI7HBCnIbAISN6NzN4PoCBn14cCa2uB1kHZ2kGu.jpg")}}" alt="">
+                        <img src="{{ asset('storage/config/PBI7HBCnIbAISN6NzN4PoCBn14cCa2uB1kHZ2kGu.jpg') }}"
+                            alt="">
                         <div class="form-group">
                             <label>Type</label>
                             <select class="form-control" name='type' id="setting-type">
@@ -118,37 +119,57 @@
                 </div>
             </div>
         </div>
-
-        <div class="modal fade" id="editNotes" tabindex="-1" role="dialog" aria-labelledby="editNotesTitle"
+        <div class="modal fade" id="editSetting" tabindex="-1" role="dialog" aria-labelledby="editSettingTitle"
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="editNotesTitle">Modal title</h5>
+                        <h5 class="modal-title" id="editSettingTitle">Modal title</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label>Name</label>
+                            <label>Key</label>
                             <input type="hidden" name="id" class="form-control" required>
-                            <input type="text" name="name" class="form-control" required>
+                            <input type="text" name="key" class="form-control" required>
+                        </div>
+                        @csrf
+                        <div class="form-group">
+                            <label>Group</label>
+                            <select class="form-control" name='group' id="exampleFormControlSelect1">
+                                <option value="INFO">INFO</option>
+                                <option value="CONFIG">CONFIG</option>
+                            </select>
                         </div>
                         <div class="form-group">
-                            <label>Channel</label>
-                            <input type="number" name="channel" class="form-control" required>
+                            <label>Title</label>
+                            <input type="text" name="title" class="form-control" required>
                         </div>
-                        <div class="form-check form-switch">
-                            <label class="fancy-radio"><input name="status" value="0"
-                                    type="radio"><span><i></i>DISCONECT</span></label>
-                            <label class="fancy-radio"><input name="status" value="1" type="radio"
-                                    checked><span><i></i>CONNECT</span></label>
+                        <img src="{{ asset('storage/config/PBI7HBCnIbAISN6NzN4PoCBn14cCa2uB1kHZ2kGu.jpg') }}"
+                            alt="">
+                        <div class="form-group">
+                            <label>Type</label>
+                            <select class="form-control" name='type' id="setting-type">
+                                <option value="text">Text</option>
+                                <option value="number">Number</option>
+                                <option value="date">Date</option>
+                                <option value="file">File</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Value</label>
+                            <input type="text" name="value" id='setting_value' class="form-control" required>
+                        </div>
+                        <div class="form-group" id="image">
+                            <input type="file" disabled dis id="dropify-event"
+                                data-default-file="../assets/images/image-gallery/1.jpg">
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" onclick="editsubmitForm()">Save changes</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
                     </div>
                 </div>
             </div>
@@ -157,125 +178,68 @@
 @endsection
 
 @section('javascript')
+    <script src="{{ asset('assets/vendor/dropify/js/dropify.min.js') }}"></script>
+    <script src="{{ asset('assets/js/pages/forms/dropify.js') }}"></script>
     <script>
-        $('#setting-type').change(function () {
-                var selectedType = $(this).val();
-                $('#setting_value').attr('type', selectedType);
-            });
+        var settings = {!! json_encode($settings) !!};
 
+        $('#createSetting #setting-type').change(function() {
+            var selectedType = $(this).val();
+            $('#createSetting #setting_value').attr('type', selectedType);
+        });
+        $('#editSetting #setting-type').change(function() {
+            var selectedType = $(this).val();
+            $('#editSetting #setting_value').attr('type', selectedType);
+        });
 
         $('#createSetting .btn-primary').on('click', function() {
-
-            // Lấy giá trị từ các trường input
-            var token = $('input[name="_token"]').val();
-            var key = $('input[name="key"]').val();
-            var group = $('select[name="group"]').val();
-            var title = $('input[name="title"]').val();
             var type = $('select[name="type"]').val();
-            if(type == 'file'){
+            var value;
+
+            if (type == 'file') {
                 value = $('input[name="value"]')[0].files[0];
-            }else{
+            } else {
                 value = $('input[name="value"]').val();
             }
 
-            // Tạo đối tượng FormData để chứa dữ liệu form và file
-            var formData = new FormData();
-            formData.append('key', key);
-            formData.append('group', group);
-            formData.append('title', title);
-            formData.append('type', type);
-            formData.append('value', value);
-            formData.append('_token', token);
+            // Kiểm tra nếu biến value đã được định nghĩa
+            if (typeof value !== 'undefined') {
+                // Tạo đối tượng FormData để chứa dữ liệu form và file
+                var formData = new FormData();
+                formData.append('key', $('input[name="key"]').val());
+                formData.append('group', $('select[name="group"]').val());
+                formData.append('title', $('input[name="title"]').val());
+                formData.append('type', type);
+                formData.append('value', value);
+                formData.append('_token', $('input[name="_token"]').val());
+                console.log('formData', formData);
 
-            // Gửi dữ liệu form và file đến server bằng Ajax
-            $.ajax({
-                type: 'POST',
-                url: 'http://monitoring.test/setting',
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function(response) {
-                    // Xử lý phản hồi từ server (nếu cần)
-                    console.log(response);
-                },
-                error: function(error) {
-                    // Xử lý lỗi (nếu có)
-                    console.log(error);
-                }
-            });
+                submitForm('{{ asset('/setting') }}', 'POST', formData);
+            }
         });
 
-        function submit() {
-            // Get form data
-            var formData = {
-                name: $('#createNotes input[name="name"]').val(),
-                channel: $('#createNotes input[name="channel"]').val(),
-                status: $('#createNotes input[name="status"]:checked').val()
-            };
-
-            // Send Ajax request
+        function submitForm(Url, method, formData) {
+            // Gửi Ajax request
             $.ajax({
-                    url: '{{ asset('/api/channel') }}',
-                    type: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify(formData),
+                    url: Url,
+                    type: method,
+                    data: formData,
+                    contentType: false,
+                    processData: false,
                 })
                 .then(function(response) {
-                    // Handle success response
-                    channels.push(response.data);
-                    // Optionally, close the modal or perform other actions
+                    // Xử lý kết quả thành công
+                    console.log('response', response);
+
+                    // Thêm xử lý của bạn ở đây nếu cần
+                    settings.push(response.data);
+
                     toastr.success('Dữ liệu đã được lưu thành công');
                     addData(response.data);
-                    $('#createNotes').modal('hide');
+                    $('#createSetting').modal('hide');
                 })
                 .catch(function(error) {
-                    var dataError = error.responseJSON.errors;
-                    if (error.status != 500) {
-                        for (const key in dataError) {
-                            if (dataError.hasOwnProperty(key)) {
-                                const messages = dataError[key];
-                                messages.forEach(message => {
-                                    toastr.error(message);
-                                });
-                            }
-                        }
-                    } else {
-                        toastr.error('Lỗi khi lưu dữ liệu');
-                    }
-                });
-        }
-    </script>
-
-
-    <script>
-        var channels = {!! json_encode($settings) !!};
-        console.log('asset', '{{ asset('/api/channel') }}')
-
-        // thêm mới 
-        function submitForm() {
-            // Get form data
-            var formData = {
-                name: $('#createNotes input[name="name"]').val(),
-                channel: $('#createNotes input[name="channel"]').val(),
-                status: $('#createNotes input[name="status"]:checked').val()
-            };
-
-            // Send Ajax request
-            $.ajax({
-                    url: '{{ asset('/api/channel') }}',
-                    type: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify(formData),
-                })
-                .then(function(response) {
-                    // Handle success response
-                    channels.push(response.data);
-                    // Optionally, close the modal or perform other actions
-                    toastr.success('Dữ liệu đã được lưu thành công');
-                    addData(response.data);
-                    $('#createNotes').modal('hide');
-                })
-                .catch(function(error) {
+                    // Xử lý lỗi
                     var dataError = error.responseJSON.errors;
                     if (error.status != 500) {
                         for (const key in dataError) {
@@ -292,44 +256,44 @@
                 });
         }
 
-        function addData(response) {
-            var newRow = '<tr id="channel_' + response.id + '">' +
-                '<td>' + response.id + '</td>' +
-                '<td><span>' + response.name + '</span></td>' +
-                '<td><span class="text-info">' + response.channel + '</span></td>' +
-                '<td><span class="badge ' + (response.status ? 'badge-success' : 'badge-danger') + '">' +
-                (response.status ? 'Operation' : 'Disconect') + '</span></td>' +
+        function addData(data) {
+            console.log('addData', data)
+            var newRow = '<tr id="setting_' + data.id + '">' +
+                '<td>' + data.id + '</td>' +
+                '<td><span class="text-info">' + data.key + '</span></td>' +
+                '<td><span class="text-info">' + data.group + '</span></td>' +
+                '<td><span>' + data.value + '</span></td>' +
                 '<td>' +
-                '<button type="button" class="btn btn-info" title="Edit" onclick="editNote(' + response.id +
+                '<button type="button" class="btn btn-info" title="Edit" onclick="editNote(' + data.id +
                 ')"><i class="fa fa-edit"></i></button>' +
                 '<button type="button" data-type="confirm" class="btn btn-danger js-sweetalert" onclick="deleteChannel(' +
-                response.id + ')" title="Delete"><i class="fa fa-trash-o"></i></button>' +
+                data.id + ')" title="Delete"><i class="fa fa-trash-o"></i></button>' +
                 '</td>' +
                 '</tr>';
 
             // Append the new row to the tbody
-            $('#channel').append(newRow);
+            $('#setting-config').append(newRow);
         }
-        $('#createNotes .btn-primary').on('click', function() {
-            submitForm();
-        });
+    </script>
 
+    {{-- ============================== END ====================================== --}}
+    <script>
         // update data
         function editNote(id) {
-            $('#editNotes').modal('show');
-            var channel = channels.find(function(item) {
+            $('#editSetting').modal('show');
+            var setting = settings.find(function(item) {
                 return item.id === id;
             });
-            this.renderDataToForm(channel);
+            this.renderDataToForm(setting);
         }
 
         function editsubmitForm() {
             // Get form data
             var formData = {
-                id: $('#editNotes input[name="id"]').val(),
-                name: $('#editNotes input[name="name"]').val(),
-                channel: $('#editNotes input[name="channel"]').val(),
-                status: $('#editNotes input[name="status"]:checked').val()
+                id: $('#editSetting input[name="id"]').val(),
+                name: $('#editSetting input[name="name"]').val(),
+                channel: $('#editSetting input[name="channel"]').val(),
+                status: $('#editSetting input[name="status"]:checked').val()
             };
 
             // Send Ajax request
@@ -345,7 +309,7 @@
                     // Optionally, close the modal or perform other actions
                     toastr.success('Dữ liệu đã được cập nhật thành công');
                     // addData(response.data);
-                    $('#editNotes').modal('hide');
+                    $('#editSetting').modal('hide');
                 })
                 .catch(function(error) {
                     var dataError = error.responseJSON.errors;
@@ -388,12 +352,21 @@
 
         function renderDataToForm(data) {
             // Đặt giá trị cho các trường trong form
-            $('#editNotes input[name="id"]').val(data.id);
-            $('#editNotes input[name="name"]').val(data.name);
-            $('#editNotes input[name="channel"]').val(data.channel);
+            $('#editSetting input[name="id"]').val(data.id);
+            $('#editSetting input[name="key"]').val(data.key);
+            $('#editSetting select[name="group"]').val(data.group);
+            $('#editSetting input[name="title"]').val(data.title);
+            $('#editSetting input[name="type"]').val(data.type);
 
-            // Đặt giá trị cho trường radio status
-            $('#editNotes input[name="status"][value="' + data.status + '"]').prop('checked', true);
+
+            if (data.type === 'file') {
+                $('#image').addClass('hidden');
+                $('#editSetting #setting_value').attr('type', 'file');
+            } else {
+                $('#editSetting input[name="value"]').val(data.value);
+                $("#image").hide();
+            }
+            console.log('setting_value', data)
         }
 
         // delete data

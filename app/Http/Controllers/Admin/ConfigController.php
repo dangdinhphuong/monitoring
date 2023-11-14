@@ -56,7 +56,7 @@ class ConfigController extends Controller
                 'errors' => $exception,
             ], JsonResponse::HTTP_INTERNAL_SERVER_ERROR); // HTTP status code 422
         }
-        return response()->json(['message' => 'Dữ liệu đã được lưu thành công', 'data' => ''], JsonResponse::HTTP_OK);
+        return response()->json(['message' => 'Dữ liệu đã được lưu thành công', 'data' => $config], JsonResponse::HTTP_OK);
     }
 
     public function updateConfig(Request $request, $id)
