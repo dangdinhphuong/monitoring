@@ -12,6 +12,9 @@ Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 Route::name('admin.')->middleware('AdminLogin')->prefix('')->group(function () {
     Route::get('/', [DashboadContrller::class, 'index'])->name('dashboad');
     Route::get('channel', [ChanelController::class, 'index'])->name('channel-list');
-    Route::get('/setting', [ConfigController::class, 'index'])->name('setting');
-    Route::post('/setting', [ConfigController::class, 'store'])->name('setting-store');
+    Route::prefix('/setting')->group(function () {
+        Route::get('', [ConfigController::class, 'index'])->name('setting');
+        Route::post('', [ConfigController::class, 'store'])->name('setting-store');
+        Route::post('/{id}', [ConfigController::class, 'update'])->name('setting-update');
+    });
 });

@@ -56,7 +56,7 @@
                                                             class="fa fa-edit"></i></button>
                                                     <button type="button" data-type="confirm"
                                                         class="btn btn-danger js-sweetalert"
-                                                        onclick='deleteChannel({{ $setting->id }})' title="Delete"><i
+                                                        onclick='deleteSetting({{ $setting->id }})' title="Delete"><i
                                                             class="fa fa-trash-o"></i></button>
                                                 </td>
                                             </tr>
@@ -135,7 +135,6 @@
                             <input type="hidden" name="id" class="form-control" required>
                             <input type="text" name="key" class="form-control" required>
                         </div>
-                        @csrf
                         <div class="form-group">
                             <label>Group</label>
                             <select class="form-control" name='group' id="exampleFormControlSelect1">
@@ -162,14 +161,13 @@
                             <label>Value</label>
                             <input type="text" name="value" id='setting_value' class="form-control" required>
                         </div>
-                        <div class="form-group" id="image">
-                            <input type="file" disabled dis id="dropify-event"
-                                data-default-file="../assets/images/image-gallery/1.jpg">
+                        <div class="form-group" id="file-upload">
+
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-primary" onclick="editsubmitForm()">Save changes</button>
                     </div>
                 </div>
             </div>
@@ -178,8 +176,6 @@
 @endsection
 
 @section('javascript')
-    <script src="{{ asset('assets/vendor/dropify/js/dropify.min.js') }}"></script>
-    <script src="{{ asset('assets/js/pages/forms/dropify.js') }}"></script>
     <script>
         var settings = {!! json_encode($settings) !!};
 
@@ -193,28 +189,28 @@
         });
 
         $('#createSetting .btn-primary').on('click', function() {
-            var type = $('select[name="type"]').val();
+            var type = $('#createSetting select[name="type"]').val();
             var value;
 
             if (type == 'file') {
-                value = $('input[name="value"]')[0].files[0];
+                value = $('#createSetting input[name="value"]')[0].files[0];
             } else {
-                value = $('input[name="value"]').val();
+                value = $('#createSetting input[name="value"]').val();
             }
 
             // Kiểm tra nếu biến value đã được định nghĩa
             if (typeof value !== 'undefined') {
                 // Tạo đối tượng FormData để chứa dữ liệu form và file
                 var formData = new FormData();
-                formData.append('key', $('input[name="key"]').val());
-                formData.append('group', $('select[name="group"]').val());
-                formData.append('title', $('input[name="title"]').val());
+                formData.append('key', $('#createSetting input[name="key"]').val());
+                formData.append('group', $('#createSetting select[name="group"]').val());
+                formData.append('title', $('#createSetting input[name="title"]').val());
                 formData.append('type', type);
                 formData.append('value', value);
                 formData.append('_token', $('input[name="_token"]').val());
                 console.log('formData', formData);
 
-                submitForm('{{ asset('/setting') }}', 'POST', formData);
+                submitForm('{{ asset('api/setting') }}', 'POST', formData);
             }
         });
 
@@ -266,7 +262,7 @@
                 '<td>' +
                 '<button type="button" class="btn btn-info" title="Edit" onclick="editNote(' + data.id +
                 ')"><i class="fa fa-edit"></i></button>' +
-                '<button type="button" data-type="confirm" class="btn btn-danger js-sweetalert" onclick="deleteChannel(' +
+                '<button type="button" data-type="confirm" class="btn btn-danger js-sweetalert" onclick="deleteSetting(' +
                 data.id + ')" title="Delete"><i class="fa fa-trash-o"></i></button>' +
                 '</td>' +
                 '</tr>';
@@ -279,6 +275,7 @@
     {{-- ============================== END ====================================== --}}
     <script>
         // update data
+
         function editNote(id) {
             $('#editSetting').modal('show');
             var setting = settings.find(function(item) {
@@ -289,23 +286,39 @@
 
         function editsubmitForm() {
             // Get form data
-            var formData = {
-                id: $('#editSetting input[name="id"]').val(),
-                name: $('#editSetting input[name="name"]').val(),
-                channel: $('#editSetting input[name="channel"]').val(),
-                status: $('#editSetting input[name="status"]:checked').val()
-            };
+            id = $('#editSetting input[name="id"]').val();
+            var type = $('#editSetting select[name="type"]').val();
+            var value;
+
+            if (type == 'file') {
+                value = $('#editSetting input[name="value"]')[0].files[0];
+            } else {
+                value = $('#editSetting input[name="value"]').val();
+            }
+            console.log('value', type);
+            value = typeof value == 'undefined' ? '' : value
+
+            var formData = new FormData();
+            formData.append('key', $('#editSetting input[name="key"]').val());
+            formData.append('group', $('#editSetting select[name="group"]').val());
+            formData.append('title', $('#editSetting input[name="title"]').val());
+            formData.append('type', type);
+            formData.append('value', value);
+            console.log('formData', formData);
+
+
 
             // Send Ajax request
             $.ajax({
-                    url: '{{ asset('/api/channel') }}',
-                    type: 'PUT',
-                    contentType: 'application/json',
-                    data: JSON.stringify(formData),
+                    url: '{{ asset('api/setting') }}/' + id,
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
                 })
                 .then(function(response) {
                     // Handle success response
-                    updateChannelsById(channels, response.data)
+                    updateSettingsById(settings, response.data)
                     // Optionally, close the modal or perform other actions
                     toastr.success('Dữ liệu đã được cập nhật thành công');
                     // addData(response.data);
@@ -328,26 +341,26 @@
                 });
         }
 
-        function updateChannelsById(array, newData, key = 'id') {
-            channels = array.map(item => (item[key] === newData[key] ? newData : item));
+        function updateSettingsById(array, newData, key = 'id') {
+            settings = array.map(item => (item[key] === newData[key] ? newData : item));
             updateData(newData)
         }
 
-        function updateData(response) {
-            var updateRow = '<td>' + response.id + '</td>' +
-                '<td><span>' + response.name + '</span></td>' +
-                '<td><span class="text-info">' + response.channel + '</span></td>' +
-                '<td><span class="badge ' + (response.status ? 'badge-success' : 'badge-danger') + '">' +
-                (response.status ? 'Operation' : 'Disconect') + '</span></td>' +
+        function updateData(data) {
+            console.log('addData', data)
+            var newRow = '<td>' + data.id + '</td>' +
+                '<td><span class="text-info">' + data.key + '</span></td>' +
+                '<td><span class="text-info">' + data.group + '</span></td>' +
+                '<td><span>' + data.value + '</span></td>' +
                 '<td>' +
-                '<button type="button" class="btn btn-info" title="Edit" onclick="editNote(' + response.id +
+                '<button type="button" class="btn btn-info" title="Edit" onclick="editNote(' + data.id +
                 ')"><i class="fa fa-edit"></i></button>' +
-                '<button type="button" data-type="confirm" class="btn btn-danger js-sweetalert"onclick="deleteChannel(' +
-                response.id + ')" title="Delete"><i class="fa fa-trash-o"></i></button>' +
+                '<button type="button" data-type="confirm" class="btn btn-danger js-sweetalert" onclick="deleteSetting(' +
+                data.id + ')" title="Delete"><i class="fa fa-trash-o"></i></button>' +
                 '</td>';
 
             // Append the new row to the tbody
-            $('#channel_' + response.id).html(updateRow);
+            $('#setting_' + data.id).html(newRow);
         }
 
         function renderDataToForm(data) {
@@ -356,35 +369,53 @@
             $('#editSetting input[name="key"]').val(data.key);
             $('#editSetting select[name="group"]').val(data.group);
             $('#editSetting input[name="title"]').val(data.title);
-            $('#editSetting input[name="type"]').val(data.type);
-
-
-            if (data.type === 'file') {
-                $('#image').addClass('hidden');
-                $('#editSetting #setting_value').attr('type', 'file');
+            $('#editSetting select[name="type"]').val(data.type);
+            $('#editSetting #setting_value').attr('type', data.type);
+            if (data.type == 'file') {
+                fileHtml = '<a class="badge badge-danger" target="_blank" href="{{ asset('') }}' + data.value +
+                    '"><i class="fa fa-cloud-download"></i> File download</span></a>';
+                $('#file-upload').html(fileHtml);
             } else {
+                $('#file-upload').html('');
                 $('#editSetting input[name="value"]').val(data.value);
-                $("#image").hide();
             }
             console.log('setting_value', data)
         }
-
         // delete data
-        function deleteChannel(id) {
-            // Gửi Ajax request để xóa dữ liệu
-            $.ajax({
-                    url: '{{ asset('/api/channel') }}/' + id,
+        function deleteSetting(id) {
+            Swal.fire({
+                title: "Bạn có chắc không?",
+                text: "Bạn sẽ không thể hoàn nguyên điều này!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                    url: '{{ asset('/api/setting') }}/' + id,
                     type: 'DELETE',
                     dataType: 'json',
                 })
                 .then(function(response) {
                     // Xóa hàng có id tương ứng nếu xóa thành công
-                    $('#channel_' + id).remove();
+                    $('#setting_' + id).remove();
                     toastr.success(response.message);
+                    // Swal.fire({
+                    //     title: "Đã xóa!",
+                    //     text: "Tập tin của bạn đã bị xóa.",
+                    //     icon: "success"
+                    // });
                 })
                 .catch(function(error) {
                     toastr.error('Lỗi khi xóa dữ liệu');
                 });
+
+                }
+            });
+            // Gửi Ajax request để xóa dữ liệu
+
         }
     </script>
 @endsection

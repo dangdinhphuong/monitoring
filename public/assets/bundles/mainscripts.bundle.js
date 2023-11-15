@@ -10,6 +10,7 @@ function skinChanger() {
         var e = $("body"), t = $(this), a = $(".choose-skin li.active").data("theme");
         $(".choose-skin li").removeClass("active"), e.removeClass("theme-" + a), t.addClass("active");
         var i = $(".choose-skin li.active").data("theme");
+        localStorage.setItem('theme-template', "theme-" + t.data("theme"));
         e.addClass("theme-" + t.data("theme"));
         "orange" == i || "purple" == i || "green" == i ? $("#left-sidebar .navbar-brand .logo").attr("src", "../assets/images/icon-dark.svg") : $("#left-sidebar .navbar-brand .logo").attr("src", "../assets/images/icon-light.svg")
     })

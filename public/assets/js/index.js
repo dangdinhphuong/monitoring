@@ -55,10 +55,30 @@ $(function() {
 
 
     // notification popup
-    toastr.options.closeButton = true;
-    toastr.options.positionClass = 'toast-bottom-right';
-    toastr.options.showDuration = 1000;
-    toastr['info']('Hello, welcome to HexaBit, a unique admin Template.');
+    if (!localStorage.getItem('theme-template')) {
+        // Xóa tất cả các lớp khỏi thẻ <body>
+        $('body').removeClass().addClass('theme-orange');
+        // Lưu lại vào localStorage
+        localStorage.setItem('theme-template', 'theme-orange');
+    } else {
+        // Nếu localStorage đã chứa giá trị, lấy giá trị và áp dụng lớp cho thẻ <body>
+        var savedTheme = localStorage.getItem('theme-template');
+        $('body').removeClass().addClass(savedTheme);
+    }
+    if (!localStorage.getItem('hasShownWelcomeMessage')) {
+        // Hiển thị thông báo
+        toastr.options.closeButton = true;
+        toastr.options.positionClass = 'toast-bottom-right';
+        toastr.options.showDuration = 1000;
+        toastr['info']('Xin chào , chúc bạn một ngày làm việc vui vẻ .');
+    
+        // Đánh dấu rằng đã hiển thị thông báo
+        localStorage.setItem('hasShownWelcomeMessage', 'true');
+    }
+    $('#logoutLink').on('click', function() {
+        // Xóa mục 'hasShownWelcomeMessage' từ localStorage khi đăng xuất
+        localStorage.removeItem('hasShownWelcomeMessage');
+    });
 
     var chart = c3.generate({
 

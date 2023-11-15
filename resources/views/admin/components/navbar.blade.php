@@ -187,7 +187,7 @@
                     </li>
                     <li><a href="javascript:void(0);" class="right_toggle icon-menu" title="Right Menu"><i
                                 class="icon-settings"></i></a></li>
-                    <li><a href="{{{route('logout')}}}" class="icon-menu"><i class="icon-power"></i></a></li>
+                    <li><a href="{{{route('logout')}}}" class="icon-menu" id="logoutLink"><i class="icon-power"></i></a></li>
                 </ul>
             </div>
         </div>

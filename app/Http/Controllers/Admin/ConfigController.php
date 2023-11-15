@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\config;
 use App\Services\Admin\ConfigService;
-use App\Http\Requests\Admin\ConfigRequest;
+use App\Http\Requests\Admin\ConfigCreateRequest;
+use App\Http\Requests\Admin\ConfigUpdateRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 use Exception;
 
 class ConfigController extends Controller
@@ -31,7 +33,7 @@ class ConfigController extends Controller
         return view('admin.pages.Setting', compact('settings'));
     }
 
-    public function store(ConfigRequest $request)
+    public function store(ConfigCreateRequest $request)
     {
         $validator = Validator::make($request->all(), $request->rules(), $request->messages());
 
@@ -59,28 +61,55 @@ class ConfigController extends Controller
         return response()->json(['message' => 'Dữ liệu đã được lưu thành công', 'data' => $config], JsonResponse::HTTP_OK);
     }
 
-    public function updateConfig(Request $request, $id)
+    public function update(ConfigUpdateRequest $request, $id)
     {
-        $config = config::first();
-        $this->validate(request(), [
-            'key' => 'required',
-            'type'    => 'required',
-            'group' => 'required',
-            'value' => 'nullable',
-        ]);
+        $validator = Validator::make($request->all(), $request->rules(), $request->messages());
 
-        $data = $request->all();
-        unset($data["_token"]);
-
-        $config = $this->configService->getConfigByKey($data['key']);
-        dd($config);
-        if ($request->hasFile('value')) {
-            $image = $this->configService->updateFileInStore($request, $config);
-            unset($data['value']);
-            $data['value'] = $image;
+        if ($validator->fails()) {
+            // Nếu xác thực thất bại, trả về phản hồi JSON với thông báo lỗi
+            return response()->json([ 'errors' => $validator->errors(),], JsonResponse::HTTP_UNPROCESSABLE_ENTITY); // HTTP status code 422
         }
-        $this->configService->updateOrCreateData($data, $config);
-        //        Config::updateOrInsert(['key' => $data['key']], $data);
-        return response()->json(['message' => 'Cập nhật thông tin thành công'], 200);
+
+        try {
+            $data = $request->all();
+            $config = config::firstOrNew(['id' => $id]);
+            if(empty($config)){
+                return response()->json([ 'errors' => "Không thể tìm được dữ liệu",], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+            }
+         if($data['type'] == 'file'){
+            if(!empty($data['value'])){
+                $pathFile = $request->file('value')->store('public/config');
+                $pathFile = str_replace("public", "storage", $pathFile);
+                $data['value'] = $pathFile;
+                if (file_exists($config->value) && !empty($data['value'])) {
+                    unlink($config->value);
+                }
+            }else{
+                unset($data['value']);
+            }
+
+         }
+         $config->update($data);
+
+        } catch (Exception $exception) {
+            return response()->json([
+                'errors' => $exception,
+            ], JsonResponse::HTTP_INTERNAL_SERVER_ERROR); // HTTP status code 422
+        }
+        return response()->json(['message' => 'Dữ liệu đã được lưu thành công', 'data' => $config], JsonResponse::HTTP_OK);
+    }
+    public function delete($id){
+        try {
+            $config = config::firstOrNew(['id' => $id]);
+            if($config->type == 'file' && file_exists($config->value)){
+                unlink($config->value);
+             }
+             $config->delete();
+        } catch (Exception $exception) {
+            return response()->json([
+                'errors' => $exception,
+            ], JsonResponse::HTTP_INTERNAL_SERVER_ERROR); // HTTP status code 422
+        }
+        return response()->json(['message' => 'Dữ liệu đã được xóa thành công'], JsonResponse::HTTP_OK);
     }
 }

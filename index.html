@@ -1,59 +1,70 @@
-@extends('admin.app')
-@section('title', 'Dasboard')
-@section('content')
-<div class="body">
-    <canvas id="myChart"
-    style="height: 400px!important; display: block; box-sizing: border-box; width: 1564px;"
-    width="1564" height="400px"></canvas>
-</div>
-@endsection
-
-@section('javascript')
-<script>
-    const ctx = document.getElementById('myChart');
+<html>
+<head>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css" rel="stylesheet" />
+</head>
+<body>
   
-    new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-        datasets: [
-        {
-            label: "Temperature",
-            backgroundColor: "rgb(255, 99, 132)",
-            borderColor: "rgb(255, 99, 132)",
-            data: [12, 19, 3, 5, 5, 3],
-            tension: 0.3
-        },
-        {
-            label: "Pressure",
-            backgroundColor: "rgb(205, 0, 255)",
-            borderColor: "rgb(205, 0, 255)",
-            data: [12, 60, 3, 5, 2, 3],
-            tension: 0.3
-        },
-        {
-            label: "Altitude sea",
-            backgroundColor: "rgb(17, 144, 225)",
-            borderColor: "rgb(17, 144, 225)",
-            data: [45, 19, 3, 5, 2, 32],
-            tension: 0.3
-        },
-        {
-            label: "Altitude cm",
-            backgroundColor: "rgb(129, 255, 17)",
-            borderColor: "rgb(129, 255, 17)",
-            data: [14, 9, 34, 5, 2, 3],
-            tension: 0.3
-        },
-    ]
-      },
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true
-          }
-        }
-      }
+  <div class="container">
+  <h2>Bordered Table</h2>
+  <p>The .table-bordered class adds borders to a table:
+    <button type="button" class="btn saveAsExcel">export excel</button>  
+  </p>
+  <div class="wrapper">
+  <table  id="mytable" class="table table-bordered exportable">
+    <thead>
+      <tr>
+        <th>Firstname</th>
+        <th>Lastname</th>
+        <th>Email</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>John</td>
+        <td>Doe</td>
+        <td>john@example.com</td>
+      </tr>
+      <tr>
+        <td>Mary</td>
+        <td>Moe</td>
+        <td>mary@example.com</td>
+      </tr>
+      <tr>
+        <td>July</td>
+        <td>Dooley</td>
+        <td>july@example.com</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2014-11-29/FileSaver.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/js/bootstrap.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.12.13/xlsx.full.min.js"></script>
+<script>
+  $(document).ready(function(){
+    $(".saveAsExcel").click(function(){
+        var workbook = XLSX.utils.book_new();
+        
+        //var worksheet_data  =  [['hello','world']];
+        //var worksheet = XLSX.utils.aoa_to_sheet(worksheet_data);
+      
+        var worksheet_data  = document.getElementById("mytable");
+        var worksheet = XLSX.utils.table_to_sheet(worksheet_data);
+        
+        workbook.SheetNames.push("Test");
+        workbook.Sheets["Test"] = worksheet;
+      
+         exportExcelFile(workbook);
+      
+     
     });
-  </script>
-@endsection
+})
+
+function exportExcelFile(workbook) {
+    return XLSX.writeFile(workbook, "bookName.xlsx");
+}
+
+</script>
+</body>
+</html>

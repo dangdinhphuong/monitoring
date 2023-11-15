@@ -75,7 +75,7 @@
             const id = $('#channels').val();
             const apiURL = 'https://api.thingspeak.com/channels/' + id + '/fields/1.json';
             const apiKey = 'M18ETIVKUBNO8P5I';
-            const results = 20;
+            const results = 10;
 
             // Gọi fetchDataFromApi và sau đó sử dụng dữ liệu trả về
             fetchDataFromApi(apiURL, apiKey, results)

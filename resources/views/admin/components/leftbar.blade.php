@@ -16,11 +16,9 @@
                 <a href="javascript:void(0);" class="dropdown-toggle user-name"
                     data-toggle="dropdown"><strong>{{ Auth::user()->fullname ?? ''}}</strong></a>
                 <ul class="dropdown-menu dropdown-menu-right account">
-                    <li><a href="page-profile.html"><i class="icon-user"></i>My Profile</a></li>
-                    <li><a href="app-inbox.html"><i class="icon-envelope-open"></i>Messages</a></li>
-                    <li><a href="javascript:void(0);"><i class="icon-settings"></i>Settings</a></li>
+                    <li><a href=""><i class="icon-user"></i>My Profile</a></li>
                     <li class="divider"></li>
-                    <li><a href="{{route('logout')}}"><i class="icon-power"></i>Logout</a></li>
+                    <li><a href="{{route('logout')}}" id="logoutLink"><i class="icon-power"></i>Logout</a></li>
                 </ul>
             </div>
         </div>
@@ -34,6 +32,11 @@
                     <li class="{{ request()->routeIs('admin.channel-list') ? 'active' : '' }}">
                         <a href="{{ route('admin.channel-list') }}">
                             <i class="icon-list"></i><span>Channels</span>
+                        </a>
+                    </li>
+                    <li class="{{ request()->routeIs('admin.setting') ? 'active' : '' }}">
+                        <a href="{{ route('admin.setting') }}">
+                            <i class="icon-settings"></i><span>Settings</span>
                         </a>
                     </li>
                
