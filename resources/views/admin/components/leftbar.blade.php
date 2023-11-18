@@ -29,15 +29,26 @@
                             <i class="icon-home"></i><span>Dashboard</span>
                         </a>
                     </li>
-                    <li class="{{ request()->routeIs('admin.channel-list') ? 'active' : '' }}">
-                        <a href="{{ route('admin.channel-list') }}">
-                            <i class="icon-list"></i><span>Channels</span>
+                    <li class="{{ request()->routeIs('admin.table-list') ? 'active' : '' }}">
+                        <a href="{{ route('admin.table-list') }}">
+                            <i class="icon-list"></i><span>Table</span>
                         </a>
                     </li>
-                    <li class="{{ request()->routeIs('admin.setting') ? 'active' : '' }}">
-                        <a href="{{ route('admin.setting') }}">
-                            <i class="icon-settings"></i><span>Settings</span>
-                        </a>
+
+                    <li class="{{ request()->routeIs('admin.channel-list') ||  request()->routeIs('admin.setting') ? 'active' : '' }}" >
+                        <a  class="has-arrow"><i class="icon-settings"></i><span>Settings</span></a>
+                        <ul>
+                            <li class="{{ request()->routeIs('admin.channel-list') ? 'active' : '' }}">
+                                <a href="{{ route('admin.channel-list') }}">
+                                    <span>Channels</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->routeIs('admin.setting') ? 'active' : '' }}">
+                                <a href="{{ route('admin.setting') }}">
+                                    <span>Environment</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                
                 {{-- <li><a href="app-inbox.html"><i class="icon-envelope"></i><span>Inbox</span></a></li>
