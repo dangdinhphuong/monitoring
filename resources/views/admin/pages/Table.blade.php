@@ -39,7 +39,8 @@
                                     </div>
                                 </div>
                                 <div class="mr-2 mt-1 float-left">
-                                    <input type="number" id ="results-input" class="form-control form-control-sm" name="result"  value="20" placeholder="Row">
+                                    <input type="number" id ="results-input" class="form-control form-control-sm"
+                                        name="result" value="20" placeholder="Row">
                                 </div>
                                 <div class="mr-2 mt-1 float-left">
                                     <a class="btn btn-sm btn-primary" href="#" onclick="action()" role="button">
@@ -47,7 +48,7 @@
                                     </a>
                                 </div>
                                 <div class="mr-2 mt-1 float-left">
-                                    <a class="btn btn-sm btn-success" href="#" role="button">
+                                    <a class="btn btn-sm btn-success" href="#" id="saveAsExcel" role="button">
                                         Tải file &nbsp; <i class="fa fa-download"></i>
                                     </a>
                                 </div>
@@ -66,7 +67,7 @@
                         </div>
                         <div class="body">
                             <div class="table-responsive">
-                                <table class="table m-b-0">
+                                <table class="table m-b-0" id="mytable">
                                     <thead>
                                         <tr id="table-header">
                                         </tr>
@@ -87,10 +88,10 @@
     <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker3.min.css') }}">
     <script src="{{ asset('assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
     <script>
-          $("#results-input").on("keypress", function(event) {
+        $("#results-input").on("keypress", function(event) {
             var key = event.which;
             if (key < 48 || key > 57) {
-            event.preventDefault();
+                event.preventDefault();
             }
         });
         action();
@@ -106,8 +107,8 @@
                     data: {
                         api_key: apiKey,
                         results: $("input[name='result']").val() ?? results,
-                        start: startValue ?  formatDate(startValue,"YYYY-MM-DD") + " 00:00:00" : '',
-                        end: endValue ? formatDate(endValue,"YYYY-MM-DD") + " 23:59:59" : ''
+                        start: startValue ? formatDate(startValue, "YYYY-MM-DD") + " 00:00:00" : '',
+                        end: endValue ? formatDate(endValue, "YYYY-MM-DD") + " 23:59:59" : ''
                     },
                     dataType: 'json',
                     success: function(response) {
@@ -168,7 +169,7 @@
                         } else if (entry[key] == null || entry[key] == '') {
                             // yourVariable is empty
                             res = 0;
-                        }else{
+                        } else {
                             res = entry[key];
                         }
                         renderDataHtml += `<td><span class="text-info">${res}</span></td>`;
@@ -182,6 +183,32 @@
         function formatDate(isoString, type = "D/M/YYYY - H:mm:ss") {
             // Chuyển đổi chuỗi thời gian từ định dạng ISO 8601 sang "d/m/Y - H:i:s"
             return moment(isoString).format(type);
+        }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2014-11-29/FileSaver.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.12.13/xlsx.full.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#saveAsExcel").click(function() {
+                var workbook = XLSX.utils.book_new();
+
+                //var worksheet_data  =  [['hello','world']];
+                //var worksheet = XLSX.utils.aoa_to_sheet(worksheet_data);
+
+                var worksheet_data = document.getElementById("mytable");
+                var worksheet = XLSX.utils.table_to_sheet(worksheet_data);
+
+                workbook.SheetNames.push("Test");
+                workbook.Sheets["Test"] = worksheet;
+
+                exportExcelFile(workbook);
+
+
+            });
+        })
+
+        function exportExcelFile(workbook) {
+            return XLSX.writeFile(workbook, "data-"+ $.now()+ ".xlsx");
         }
     </script>
 @endsection
