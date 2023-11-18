@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\config;
+use App\Models\Config;
 use App\Services\Admin\ConfigService;
 use App\Http\Requests\Admin\ConfigCreateRequest;
 use App\Http\Requests\Admin\ConfigUpdateRequest;
@@ -23,13 +23,13 @@ class ConfigController extends Controller
     }
     public function config()
     {
-        //$config= config::first();
+        //$config= Config::first();
         return view('admin.pages.auth.config');
     }
 
     public function index()
     {
-        $settings =  config::get();
+        $settings =  Config::get();
         return view('admin.pages.Setting', compact('settings'));
     }
 
@@ -51,7 +51,7 @@ class ConfigController extends Controller
             $pathFile = str_replace("public", "storage", $pathFile); //storage/config/PBI7HBCnIbAISN6NzN4PoCBn14cCa2uB1kHZ2kGu.jpg
             $data['value'] = $pathFile;
          }
-         $config = config::create($data);
+         $config = Config::create($data);
 
         } catch (Exception $exception) {
             return response()->json([
@@ -72,7 +72,7 @@ class ConfigController extends Controller
 
         try {
             $data = $request->all();
-            $config = config::firstOrNew(['id' => $id]);
+            $config = Config::firstOrNew(['id' => $id]);
             if(empty($config)){
                 return response()->json([ 'errors' => "Không thể tìm được dữ liệu",], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
             }
@@ -100,7 +100,7 @@ class ConfigController extends Controller
     }
     public function delete($id){
         try {
-            $config = config::firstOrNew(['id' => $id]);
+            $config = Config::firstOrNew(['id' => $id]);
             if($config->type == 'file' && file_exists($config->value)){
                 unlink($config->value);
              }
