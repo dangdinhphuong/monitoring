@@ -34,22 +34,23 @@
                             <i class="icon-list"></i><span>Table</span>
                         </a>
                     </li>
-
-                    <li class="{{ request()->routeIs('admin.channel-list') ||  request()->routeIs('admin.setting') ? 'active' : '' }}" >
-                        <a  class="has-arrow"><i class="icon-settings"></i><span>Settings</span></a>
-                        <ul>
-                            <li class="{{ request()->routeIs('admin.channel-list') ? 'active' : '' }}">
-                                <a href="{{ route('admin.channel-list') }}">
-                                    <span>Channels</span>
-                                </a>
-                            </li>
-                            <li class="{{ request()->routeIs('admin.setting') ? 'active' : '' }}">
-                                <a href="{{ route('admin.setting') }}">
-                                    <span>Environment</span>
-                                </a>
-                            </li>
-                                                    </ul>
+                    <li class="{{ request()->routeIs('admin.channel-list') ? 'active' : '' }}">
+                        <a href="{{ route('admin.channel-list') }}">
+                            <i class="icon-tag"></i><span>Channels</span>
+                        </a>
                     </li>
+                    <li class="{{ request()->routeIs('admin.setting') ? 'active' : '' }}">
+                        <a href="{{ route('admin.setting') }}">
+                            <i class="icon-puzzle"></i><span>Environment</span>
+                        </a>
+                    </li>
+                    <li class="{{ request()->routeIs('admin.user') ? 'active' : '' }}">
+                        <a href="{{ route('admin.user') }}">
+                            <i class="icon-lock"></i><span>User</span>
+                        </a>
+                    </li>
+
+
                
                 {{-- <li><a href="app-inbox.html"><i class="icon-envelope"></i><span>Inbox</span></a></li>
                 <li><a href="app-chat.html"><i class="icon-bubbles"></i><span>Chat</span></a></li> --}}

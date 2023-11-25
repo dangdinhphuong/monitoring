@@ -11,7 +11,7 @@
             </div>
             <a href="javascript:void(0);" class="icon-menu btn-toggle-fullwidth"><i
                     class="fa fa-arrow-left"></i></a>
-            <ul class="nav navbar-nav">
+            {{-- <ul class="nav navbar-nav">
                 <li class="dropdown dropdown-animated scale-right">
                     <a href="javascript:void(0);" class="dropdown-toggle icon-menu" data-toggle="dropdown"><i
                             class="icon-grid"></i></a>
@@ -46,7 +46,7 @@
                             class="icon-calendar"></i></a></li>
                 <li><a href="#" class="icon-menu d-none d-sm-block"><i class="icon-bubbles"></i></a>
                 </li>
-            </ul>
+            </ul> --}}
         </div>
 
         <div class="navbar-right">

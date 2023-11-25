@@ -20,14 +20,14 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="header">
-                            <input type="text" class="form-control col-3" required placeholder="Search ...">
+                            {{-- <input type="text" class="form-control col-3" required placeholder="Search ..."> --}}
                             <ul class="header-dropdown dropdown dropdown-animated scale-left">
                                 <li><a href="javascript:void(0);" data-toggle="cardloading" data-loading-effect="pulse"><i
                                             class="icon-refresh"></i></a></li>
                                 <li><a href="javascript:void(0);" class="full-screen"><i
                                             class="icon-size-fullscreen"></i></a></li>
-                                <li><a href="javascript:void(0);" data-toggle="modal" data-target="#createSetting"><i
-                                            class="icon-plus"></i></a></li>
+                                {{-- <li><a href="javascript:void(0);" data-toggle="modal" data-target="#createSetting"><i
+                                            class="icon-plus"></i></a></li> --}}
                             </ul>
                         </div>
                         <div class="body">
@@ -54,10 +54,10 @@
                                                     <button type="button" class="btn btn-info" title="Edit"
                                                         onclick="editNote({{ $setting->id }})"><i
                                                             class="fa fa-edit"></i></button>
-                                                    <button type="button" data-type="confirm"
+                                                    {{-- <button type="button" data-type="confirm"
                                                         class="btn btn-danger js-sweetalert"
                                                         onclick='deleteSetting({{ $setting->id }})' title="Delete"><i
-                                                            class="fa fa-trash-o"></i></button>
+                                                            class="fa fa-trash-o"></i></button> --}}
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -262,8 +262,6 @@
                 '<td>' +
                 '<button type="button" class="btn btn-info" title="Edit" onclick="editNote(' + data.id +
                 ')"><i class="fa fa-edit"></i></button>' +
-                '<button type="button" data-type="confirm" class="btn btn-danger js-sweetalert" onclick="deleteSetting(' +
-                data.id + ')" title="Delete"><i class="fa fa-trash-o"></i></button>' +
                 '</td>' +
                 '</tr>';
 
@@ -355,8 +353,6 @@
                 '<td>' +
                 '<button type="button" class="btn btn-info" title="Edit" onclick="editNote(' + data.id +
                 ')"><i class="fa fa-edit"></i></button>' +
-                '<button type="button" data-type="confirm" class="btn btn-danger js-sweetalert" onclick="deleteSetting(' +
-                data.id + ')" title="Delete"><i class="fa fa-trash-o"></i></button>' +
                 '</td>';
 
             // Append the new row to the tbody

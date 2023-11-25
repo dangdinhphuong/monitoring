@@ -18,6 +18,10 @@ class User extends Authenticatable
         self::DISABLE_ACCOUNT => 'Ngưng hoạt động',
         self::ENABLED_ACCOUNT => 'Đang hoạt động',
     ];
+    const ROLE = [
+        self::DISABLE_ACCOUNT => 'Nhân viên',
+        self::ENABLED_ACCOUNT => 'Admin',
+    ];
     /**
      * The attributes that are mass assignable.
      *
@@ -30,7 +34,8 @@ class User extends Authenticatable
         'fullname',
         'address',
         'phone',
-        'status'
+        'status',
+        'is_admin'
     ];
 
     /**
@@ -51,4 +56,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function scopeFilter($query, array $filters)
+    { 
+        $query->when($filters['search'] ?? false, function ($query, $search) {
+           $query->Where('fullname', 'LIKE', '%' . $search . '%');
+        });
+    }
 }
