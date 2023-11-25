@@ -12,7 +12,7 @@ function skinChanger() {
         var i = $(".choose-skin li.active").data("theme");
         localStorage.setItem('theme-template', "theme-" + t.data("theme"));
         e.addClass("theme-" + t.data("theme"));
-        "orange" == i || "purple" == i || "green" == i ? $("#left-sidebar .navbar-brand .logo").attr("src", "./assets/images/icon-dark.svg") : $("#left-sidebar .navbar-brand .logo").attr("src", "../assets/images/icon-light.svg")
+        "orange" == i || "purple" == i || "green" == i ? $("#left-sidebar .navbar-brand .logo").attr("src", logo) : $("#left-sidebar .navbar-brand .logo").attr("src", logo)
     })
 }
 

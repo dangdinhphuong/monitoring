@@ -190,7 +190,7 @@
     <script>
         // chart
         function renderChart(dataset, typeChart = 'line', time) {
-            const ctx = $('#myChart');
+                        const ctx = $('#myChart');
             new Chart(ctx, {
                 type: typeChart,
                 data: {

@@ -1,8 +1,8 @@
 <div id="left-sidebar" class="sidebar">
     <div class="navbar-brand">
-        <a href="index.html"><img
-                src="https://wrraptheme.com/templates/hexabit/html/assets/images/icon-dark.svg"
-                alt="HexaBit Logo" class="img-fluid logo"><span>HexaBit</span></a>
+        <a href="{{ route('admin.dashboad') }}"><img
+                src="{{ asset(configByKeyHelper('LOGO')->value) ?? 'https://wrraptheme.com/templates/hexabit/html/assets/images/icon-light.svg' }}"
+                alt="HexaBit Logo" class="img-fluid logo"><span>{{ configByKeyHelper('NAME_WEB')->value ?? ''}}</span></a>
         <button type="button" class="btn-toggle-offcanvas btn btn-sm btn-default float-right"><i
                 class="lnr lnr-menu fa fa-chevron-circle-left"></i></button>
     </div>
@@ -48,7 +48,7 @@
                                     <span>Environment</span>
                                 </a>
                             </li>
-                        </ul>
+                                                    </ul>
                     </li>
                
                 {{-- <li><a href="app-inbox.html"><i class="icon-envelope"></i><span>Inbox</span></a></li>

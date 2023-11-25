@@ -1,5 +1,5 @@
 @extends('admin.app')
-@section('title', 'Dasboard')
+@section('title', 'Table')
 @section('content')
     <div id="main-content">
         <div class="block-header">

@@ -3,8 +3,8 @@
 
         <div class="navbar-left">
             <div class="navbar-btn">
-                <a href="index.html"><img
-                        src="https://wrraptheme.com/templates/hexabit/html/assets/images/icon-light.svg"
+                <a href="{{ route('admin.dashboad') }}"><img
+                        src="{{ asset(configByKeyHelper('LOGO')->value) ?? 'https://wrraptheme.com/templates/hexabit/html/assets/images/icon-light.svg' }}"
                         alt="HexaBit Logo" class="img-fluid logo"></a>
                 <button type="button" class="btn-toggle-offcanvas"><i
                         class="lnr lnr-menu fa fa-bars"></i></button>
@@ -42,9 +42,9 @@
                         </li>
                     </ul>
                 </li>
-                <li><a href="app-calendar.html" class="icon-menu d-none d-sm-block d-md-none d-lg-block"><i
+                <li><a href="#" class="icon-menu d-none d-sm-block d-md-none d-lg-block"><i
                             class="icon-calendar"></i></a></li>
-                <li><a href="app-chat.html" class="icon-menu d-none d-sm-block"><i class="icon-bubbles"></i></a>
+                <li><a href="#" class="icon-menu d-none d-sm-block"><i class="icon-bubbles"></i></a>
                 </li>
             </ul>
         </div>
@@ -63,7 +63,7 @@
                             <span class="notification-dot"></span>
                         </a>
                         <ul class="dropdown-menu right_chat email">
-                            <li>
+                            {{-- <li>
                                 <a href="javascript:void(0);">
                                     <div class="media">
                                         <img class="media-object " src="../assets/images/xs/avatar4.jpg"
@@ -120,7 +120,7 @@
                                         </div>
                                     </div>
                                 </a>
-                            </li>
+                            </li> --}}
                         </ul>
                     </li>
                     <li class="dropdown dropdown-animated scale-left">
@@ -130,19 +130,19 @@
                             <span class="notification-dot"></span>
                         </a>
                         <ul class="dropdown-menu feeds_widget">
-                            <li class="header">You have 5 new Notifications</li>
+                            <li class="header">Thông báo</li>
                             <li>
                                 <a href="javascript:void(0);">
                                     <div class="feeds-left"><i class="fa fa-thumbs-o-up text-success"></i>
                                     </div>
                                     <div class="feeds-body">
-                                        <h4 class="title text-success">7 New Feedback <small
+                                        <h4 class="title text-success">Đăng nhập <small
                                                 class="float-right text-muted">Today</small></h4>
-                                        <small>It will give a smart finishing to your site</small>
+                                        <small>Chào mừng bạn đã đang nhập</small>
                                     </div>
                                 </a>
                             </li>
-                            <li>
+                            {{-- <li>
                                 <a href="javascript:void(0);">
                                     <div class="feeds-left"><i class="fa fa-user"></i></div>
                                     <div class="feeds-body">
@@ -182,12 +182,11 @@
                                         <small>You received a new oder from Tina.</small>
                                     </div>
                                 </a>
-                            </li>
+                            </li> --}}
                         </ul>
                     </li>
                     <li><a href="javascript:void(0);" class="right_toggle icon-menu" title="Right Menu"><i
                                 class="icon-settings"></i></a></li>
-                    <li><a href="{{{route('logout')}}}" class="icon-menu" id="logoutLink"><i class="icon-power"></i></a></li>
                 </ul>
             </div>
         </div>

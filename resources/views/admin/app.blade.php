@@ -7,6 +7,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title')</title>
+    <link rel="icon" href="{{asset(configByKeyHelper('LOGO')->value) }}" type="image/x-icon">
 
     <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}">
@@ -30,7 +31,7 @@
 <!-- Page Loader -->
 <div class="page-loader-wrapper">
     <div class="loader">
-        <div class="m-t-30"><img src="https://wrraptheme.com/templates/hexabit/html/assets/images/icon-light.svg"
+        <div class="m-t-30"><img src="{{asset(configByKeyHelper('LOGO')->value) ?? 'https://wrraptheme.com/templates/hexabit/html/assets/images/icon-light.svg' }}"
                                  width="48" height="48" alt="HexaBit"></div>
         <p>Please wait...</p>
     </div>
@@ -47,7 +48,9 @@
 
     @yield('content')
 </div>
-
+<script>
+   logo = '{!! asset(configByKeyHelper('LOGO')->value) ?? '' !!}';
+</script>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>

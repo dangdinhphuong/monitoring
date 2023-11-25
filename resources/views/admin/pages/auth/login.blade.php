@@ -9,7 +9,7 @@
     <meta name="description" content="HexaBit Bootstrap 4x Admin Template">
     <meta name="author" content="WrapTheme, www.thememakker.com">
 
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="{{asset(configByKeyHelper('LOGO')->value) }}" type="image/x-icon">
     <!-- VENDOR CSS -->
     <link rel="stylesheet" href="./assets/vendor/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/vendor/font-awesome/css/font-awesome.min.css">
@@ -26,11 +26,11 @@
         <div class="row clearfix">
             <div class="col-12">
                 <nav class="navbar navbar-expand-lg">
-                    <a class="navbar-brand" href="javascript:void(0);"><img src="https://wrraptheme.com/templates/hexabit/html/assets/images/icon-light.svg" width="30" height="30" class="d-inline-block align-top mr-2" alt="">HexaBit</a>
-                    <ul class="navbar-nav">
+                    <a class="navbar-brand" href="javascript:void(0);"><img src="{{asset(configByKeyHelper('LOGO')->value) ?? 'https://wrraptheme.com/templates/hexabit/html/assets/images/icon-light.svg' }}" width="30" height="30" class="d-inline-block align-top mr-2" alt="">{{ configByKeyHelper('NAME_WEB')->value ?? ''}}</a>
+                    {{-- <ul class="navbar-nav">
                         <li class="nav-item"><a class="nav-link" href="javascript:void(0);">Documentation</a></li>
                         <li class="nav-item"><a class="nav-link" href="page-register.html">Sign Up</a></li>
-                    </ul>
+                    </ul> --}}
                 </nav>
             </div>
             <div class="col-lg-8">

@@ -1,70 +1,29 @@
+<!DOCTYPE html>
 <html>
-<head>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css" rel="stylesheet" />
-</head>
+
 <body>
-  
-  <div class="container">
-  <h2>Bordered Table</h2>
-  <p>The .table-bordered class adds borders to a table:
-    <button type="button" class="btn saveAsExcel">export excel</button>  
-  </p>
-  <div class="wrapper">
-  <table  id="mytable" class="table table-bordered exportable">
-    <thead>
-      <tr>
-        <th>Firstname</th>
-        <th>Lastname</th>
-        <th>Email</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>John</td>
-        <td>Doe</td>
-        <td>john@example.com</td>
-      </tr>
-      <tr>
-        <td>Mary</td>
-        <td>Moe</td>
-        <td>mary@example.com</td>
-      </tr>
-      <tr>
-        <td>July</td>
-        <td>Dooley</td>
-        <td>july@example.com</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2014-11-29/FileSaver.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/js/bootstrap.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.12.13/xlsx.full.min.js"></script>
-<script>
-  $(document).ready(function(){
-    $(".saveAsExcel").click(function(){
-        var workbook = XLSX.utils.book_new();
-        
-        //var worksheet_data  =  [['hello','world']];
-        //var worksheet = XLSX.utils.aoa_to_sheet(worksheet_data);
-      
-        var worksheet_data  = document.getElementById("mytable");
-        var worksheet = XLSX.utils.table_to_sheet(worksheet_data);
-        
-        workbook.SheetNames.push("Test");
-        workbook.Sheets["Test"] = worksheet;
-      
-         exportExcelFile(workbook);
-      
-     
+  <canvas id="myChart"></canvas>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const xValues = [50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150];
+    const yValues = [7, 8, 8, 9, 9, 9, 10, 11, 14, 14, 15];
+
+    new Chart("myChart", {
+      type: "line",
+      data: {
+        labels: [50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150],
+        datasets: [7, 8, 8, 9, 9, 9, 10, 11, 14, 14, 15]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
     });
-})
+  </script>
 
-function exportExcelFile(workbook) {
-    return XLSX.writeFile(workbook, "bookName.xlsx");
-}
-
-</script>
 </body>
+
 </html>

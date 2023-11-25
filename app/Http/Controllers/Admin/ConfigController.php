@@ -22,7 +22,7 @@ class ConfigController extends Controller
         $this->configService = $configService;
     }
     public function config()
-    {
+    {       
         //$config= Config::first();
         return view('admin.pages.auth.config');
     }
