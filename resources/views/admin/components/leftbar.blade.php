@@ -9,14 +9,14 @@
     <div class="sidebar-scroll">
         <div class="user-account">
             <div class="user_div">
-                <img src="{{ Auth::user()->avatar ?? '../assets/images/user.png'}}" class="user-photo" alt="User Profile Picture">
+                <img src="{{ asset('storage/' . Auth::user()->avatar) ?? '../assets/images/user.png'}}" class="user-photo" alt="User Profile Picture">
             </div>
             <div class="dropdown">
                 <span>Welcome,</span>
                 <a href="javascript:void(0);" class="dropdown-toggle user-name"
                     data-toggle="dropdown"><strong>{{ Auth::user()->fullname ?? ''}}</strong></a>
                 <ul class="dropdown-menu dropdown-menu-right account">
-                    <li><a href=""><i class="icon-user"></i>My Profile</a></li>
+                    <li><a href="{{ route('admin.profile') }}"><i class="icon-user"></i>My Profile</a></li>
                     <li class="divider"></li>
                     <li><a href="{{route('logout')}}" id="logoutLink"><i class="icon-power"></i>Logout</a></li>
                 </ul>

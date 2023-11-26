@@ -26,7 +26,8 @@ Route::name('admin.')->middleware('AdminLogin')->prefix('')->group(function () {
         Route::post('/create', [UserController::class, 'store']);
         Route::get('/update/{id}', [UserController::class, 'edit'])->name('user-update');
         Route::post('/update/{id}', [UserController::class, 'update']);
-        // Route::get('', 'UserController@index')->name('user.index');
+        Route::get('/profile', [UserController::class, 'profile'])->name('profile');
+        Route::post('/changePassword', [UserController::class, 'changePassword'])->name('changePassword');
         // Route::get('ajax', 'UserController@ajax')->name('user.ajax');
         // Route::get('create', 'UserController@create')->name('user.create');
         // Route::get('edit', 'UserController@edit')->name('user.edit');

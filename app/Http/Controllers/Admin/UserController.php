@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -159,5 +161,43 @@ class UserController extends Controller
         $user->update($data);
 
         return redirect()->route('admin.user')->with('message', 'Cập nhật tài khoản thành công !');;
+    }
+
+    public function profile(Request $request)
+    {
+        $users = Auth::user();
+        return view('admin.pages.users.profile',compact('users'));
+    }
+    public function changePassword(Request $request)
+    {
+   
+        $rules = [
+            'current_password' => 'required|min:6',
+            'new_password' => 'required|min:6',
+            'confirm_password' => 'required|min:6|same:new_password'
+        ];
+        $messages = [
+            'current_password.required' => 'Mời nhập mật khẩu hiện tại !',
+            'current_password.min' => 'Mật khẩu hiện tại  ít nhất 6 ký tự!',
+            'new_password.required' => 'Vui lòng nhập mật khẩu mới.',
+            'new_password.min' => 'Mật khẩu mới phải có ít nhất :min ký tự.',
+            'new_password.confirmed' => 'Xác nhận mật khẩu mới không khớp.',
+            'new_password.different' => 'Mật khẩu mới phải khác mật khẩu hiện tại.',
+            'confirm_password.required' => 'Vui lòng xác nhận mật khẩu mới.',
+            'confirm_password.min' => 'Mật khẩu xác nhận phải có ít nhất :min ký tự.',
+            'confirm_password.same' => 'Mật khẩu xác nhận phải giống với mật khẩu mới.',
+        ];
+        $customer = User::find(auth()->user()->id);
+        $this->validate(request(), $rules, $messages);
+        $data = request()->all();
+        if (!Hash::check($data['current_password'], $customer->password)) {
+            return redirect()->route('admin.profile')->with('error', 'Mật khẩu hiện tại không chính xác, vui lòng thử lại');
+        } else {
+            $customer->update([
+                'password' => bcrypt($data['confirm_password'])
+            ]);
+            return redirect()->route('logout')->with('message', 'Đổi mật khẩu thành công. Vui lòng đăng nhập lại');
+
+        }
     }
 }
