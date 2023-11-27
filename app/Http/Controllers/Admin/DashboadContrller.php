@@ -14,6 +14,7 @@ class DashboadContrller extends Controller
         $this->chanelController = $chanelController;
     }
     public function index(){
+        dd($this->hienThiTenTepTrongPublic());
         $channels = $this->chanelController->getChannelActive();
         return view('admin.pages.Home', compact('channels'));
     }
