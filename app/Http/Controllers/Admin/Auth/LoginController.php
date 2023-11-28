@@ -6,6 +6,9 @@ use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Auth\LoginRequest;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Str;
+use App\Mail\ForgetPassMail;
+use Illuminate\Support\Facades\Mail;
 
 
 class LoginController extends Controller
@@ -70,5 +73,25 @@ class LoginController extends Controller
             auth()->logout();
         }
         return redirect()->route('login');
+    }
+    public function forGotPassword(){
+        return view('admin.pages.auth.forgot_password');
+    }
+    public function SentPassword()
+    {
+        request()->validate([
+            'email' => 'email|required|exists:users,email',
+        ], [
+            'email.required' => 'Vui lòng nhập địa chỉ e-mail !!',
+            'email.email' => 'Email không hợp lệ, Xin vui lòng thử lại!!',
+            'email.exists' => 'Email chưa được đăng ký!!'
+        ]);
+        $PasswordReset = User::where('email', request('email'))->first();
+        $data['password'] =  Str::random(15);
+        $data['user'] = $PasswordReset;
+      //  $PasswordReset->update(['password'=> $data['password']]);
+     //  return view('admin.pages.TemplateMail.forgetpass', compact('data'));
+        Mail::to(request('email'))->send(new ForgetPassMail($data));
+//        return view('admin.pages.auth.ForgetPassword')->with('message', ' Yêu cầu đã được giửi đi vui lòng kiêm tra email');
     }
 }

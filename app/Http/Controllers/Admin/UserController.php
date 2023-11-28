@@ -35,7 +35,7 @@ class UserController extends Controller
             request(),
             [
                 'fullname' => 'required|min:3|max:100',
-                'avatar' => 'required|image|mimes:jpeg,png,jpg,svg|max:2048',
+               // 'avatar' => 'required|image|mimes:jpeg,png,jpg,svg|max:2048',
                 'phone' => 'required|numeric|digits_between:10,12|unique:users,phone',
                 'address' => 'required|min:3|max:200',
                 'email' => 'required|email|unique:users,email',
@@ -71,19 +71,19 @@ class UserController extends Controller
             ]
         );
 
-        // lưu ảnh 
-        $pathAvatar = $request->file('avatar')->store('public/users/avatar');
-        $pathAvatar = str_replace("public/", "", $pathAvatar);
+//        // lưu ảnh
+//        $pathAvatar = $request->file('avatar')->store('public/users/avatar');
+//        $pathAvatar = str_replace("public/", "", $pathAvatar);
 
-        
+
 
         $data = request(['fullname', 'phone', 'address', 'email', 'is_admin', 'status']);
         // tạo mật khẩu cho tài khoản
         $data['passwordNew'] = Str::random(15); // pass chưa mã hóa
-        $data['avatar'] = $pathAvatar;
+//        $data['avatar'] = $pathAvatar;
         $data['password'] = bcrypt( $data['passwordNew']); // mã hóa mật khẩu
         $data['is_admin'] = true;
-   
+
         User::create($data);
 
        // Mail::to($request->email)->send(new NotifyMail($data));
@@ -106,7 +106,7 @@ class UserController extends Controller
             request(),
             [
                 'fullname' => 'required|min:3|max:100',
-                'avatar' => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048',
+               // 'avatar' => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048',
                 'phone' => 'required|numeric|digits_between:10,12|unique:users,phone,'. $user ->id,
                 'address' => 'required|min:3|max:200',
                 'email' => 'required|email|unique:users,email,'. $user ->id,
@@ -142,22 +142,22 @@ class UserController extends Controller
             ]
         );
         // tìm user theo id
-        
+
         // kiểm tra xem request ảnh lên không
         $pathAvatar = "";
-        if ($request->file('avatar') != null) { // có giửi ảnh lên
-           
-            if (file_exists('storage/' . $user->avatar)) {  // kiểm tra xem file ảnh cũ có tồn tại trong forder ko
-                unlink('storage/' . $user->avatar); // nếu có thì xóa ảnh cũ trong file store
-            }
-            // lưu ảnh mới
-            $pathAvatar = $request->file('avatar')->store('public/users/avatar');
-            $pathAvatar = str_replace("public/", "", $pathAvatar);
-        } else {
-            $pathAvatar = $user->avatar;
-        }
+//        if ($request->file('avatar') != null) { // có giửi ảnh lên
+//
+//            if (file_exists('storage/' . $user->avatar)) {  // kiểm tra xem file ảnh cũ có tồn tại trong forder ko
+//                unlink('storage/' . $user->avatar); // nếu có thì xóa ảnh cũ trong file store
+//            }
+//            // lưu ảnh mới
+//            $pathAvatar = $request->file('avatar')->store('public/users/avatar');
+//            $pathAvatar = str_replace("public/", "", $pathAvatar);
+//        } else {
+//            $pathAvatar = $user->avatar;
+//        }
         $data = request(['fullname', 'phone', 'address', 'email', 'is_admin', 'status']);
-        $data['avatar'] = $pathAvatar;
+       // $data['avatar'] = $pathAvatar;
         $user->update($data);
 
         return redirect()->route('admin.user')->with('message', 'Cập nhật tài khoản thành công !');;
@@ -170,7 +170,7 @@ class UserController extends Controller
     }
     public function changePassword(Request $request)
     {
-   
+
         $rules = [
             'current_password' => 'required|min:6',
             'new_password' => 'required|min:6',

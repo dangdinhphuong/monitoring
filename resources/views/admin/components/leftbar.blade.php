@@ -1,7 +1,7 @@
 <div id="left-sidebar" class="sidebar">
     <div class="navbar-brand">
         <a href="{{ route('admin.dashboad') }}"><img
-                src="{{ asset(configByKeyHelper('LOGO')->value) ?? 'https://wrraptheme.com/templates/hexabit/html/assets/images/icon-light.svg' }}"
+                src="{{configByKeyHelper('LOGO')->value }}"
                 alt="HexaBit Logo" class="img-fluid logo"><span>{{ configByKeyHelper('NAME_WEB')->value ?? ''}}</span></a>
         <button type="button" class="btn-toggle-offcanvas btn btn-sm btn-default float-right"><i
                 class="lnr lnr-menu fa fa-chevron-circle-left"></i></button>
@@ -9,7 +9,7 @@
     <div class="sidebar-scroll">
         <div class="user-account">
             <div class="user_div">
-                <img src="{{ asset('storage/' . Auth::user()->avatar) ?? '../assets/images/user.png'}}" class="user-photo" alt="User Profile Picture">
+                <img src="{{ Avatar::create(Auth::user()->fullname)->toBase64() }}" class="user-photo" alt="User Profile Picture">
             </div>
             <div class="dropdown">
                 <span>Welcome,</span>
@@ -51,7 +51,7 @@
                     </li>
 
 
-               
+
                 {{-- <li><a href="app-inbox.html"><i class="icon-envelope"></i><span>Inbox</span></a></li>
                 <li><a href="app-chat.html"><i class="icon-bubbles"></i><span>Chat</span></a></li> --}}
                 {{-- <li>

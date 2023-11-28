@@ -35,7 +35,8 @@ class User extends Authenticatable
         'address',
         'phone',
         'status',
-        'is_admin'
+        'is_admin',
+        'token'
     ];
 
     /**
@@ -57,7 +58,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
     public function scopeFilter($query, array $filters)
-    { 
+    {
         $query->when($filters['search'] ?? false, function ($query, $search) {
            $query->Where('fullname', 'LIKE', '%' . $search . '%');
         });

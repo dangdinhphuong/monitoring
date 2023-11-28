@@ -4,7 +4,7 @@
         <div class="navbar-left">
             <div class="navbar-btn">
                 <a href="{{ route('admin.dashboad') }}"><img
-                        src="{{ asset(configByKeyHelper('LOGO')->value) ?? 'https://wrraptheme.com/templates/hexabit/html/assets/images/icon-light.svg' }}"
+                        src="{{configByKeyHelper('LOGO')->value }}"
                         alt="HexaBit Logo" class="img-fluid logo"></a>
                 <button type="button" class="btn-toggle-offcanvas"><i
                         class="lnr lnr-menu fa fa-bars"></i></button>

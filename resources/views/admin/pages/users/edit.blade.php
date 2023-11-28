@@ -66,7 +66,7 @@
                                                         </span>
                                                         @enderror
                                                     </div>
-                                
+
                                                 </div>
                                                 <div class="form-group row ">
                                                     <div class=" col-sm-6 ">
@@ -88,12 +88,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group row ">
-                                                    <div class="col-sm-12">
-                                                        <label for="slugCategories"> Ảnh đại diện<span class="text-danger">(*)</span></label>
-                                                        <input onchange="previewFile(this)" id="avatar_image" type="file" id="image" name="avatar" class="form-control" require>
-                                                        @error('avatar')<span class="text-danger">{{$message}}</span>@enderror
-                                                    </div>
-                                
+
                                                 </div>
                                                 <button type="submit" class="btn btn-primary btn-user btn-block">Lưu lại</button>
                                             </div>
@@ -105,10 +100,7 @@
                                                 <div class="col-sm-12 mb-3 mb-sm-0">
                                                     <div class="col-sm-12">
                                                         <div class="mt-3 " style="width: 100%; text-align: center; display: block; " id="imgavatar1">
-                                                            <img src="{{ asset('storage/' . $users->avatar) }}" style=" width: 100%;  border: 2px solid #a1a1a1;" >
-                                                        </div>
-                                                        <div class="mt-3 " style="width: 100%; text-align: center; display: none; " id="imgavatar2">
-                                                            <img style=" width: 100%;  border: 2px solid #a1a1a1;" id="previewimgavatar" alt="">
+                                                            <img src="{{ Avatar::create($users->fullname)->toBase64() }}" style=" width: 100%;  border: 2px solid #a1a1a1;" >
                                                         </div>
                                                     </div>
                                                 </div>
