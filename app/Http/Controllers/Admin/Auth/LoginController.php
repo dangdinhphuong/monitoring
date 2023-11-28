@@ -89,7 +89,7 @@ class LoginController extends Controller
         $data['password'] =  Str::random(15);
         $data['user'] = $PasswordReset;
       //  $PasswordReset->update(['password'=> $data['password']]);
-     //  return view('admin.pages.TemplateMail.forgetpass', compact('data'));
+      //  return view('admin.pages.TemplateMail.forgetpass', compact('data'));
         Mail::to(request('email'))->send(new ForgetPassMail($data));
 //        return view('admin.pages.auth.ForgetPassword')->with('message', ' Yêu cầu đã được giửi đi vui lòng kiêm tra email');
     }
