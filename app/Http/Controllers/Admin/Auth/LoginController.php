@@ -64,6 +64,7 @@ class LoginController extends Controller
 
     public function logout()
     {
+        
         // kiểm tra xem đã đăng nhập chưa . nếu đăng r thì logout . còn chưa thì về quay về trang login
         if (auth()->user()) {
             auth()->logout();
