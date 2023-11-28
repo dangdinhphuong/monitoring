@@ -104,7 +104,7 @@
                                 <option value="text">Text</option>
                                 <option value="number">Number</option>
                                 <option value="date">Date</option>
-                                <option value="file">File</option>
+{{--                                <option value="file">File</option>--}}
                             </select>
                         </div>
                         <div class="form-group">
@@ -146,8 +146,6 @@
                             <label>Title</label>
                             <input type="text" name="title" class="form-control" required>
                         </div>
-                        <img src="{{ asset('storage/config/PBI7HBCnIbAISN6NzN4PoCBn14cCa2uB1kHZ2kGu.jpg') }}"
-                            alt="">
                         <div class="form-group">
                             <label>Type</label>
                             <select class="form-control" name='type' id="setting-type">
