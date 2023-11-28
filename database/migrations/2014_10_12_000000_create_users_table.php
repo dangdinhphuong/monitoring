@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('fullname')->nullable();
             $table->string('address', 200)->nullable();
             $table->string('phone')->nullable();
+            $table->boolean('is_admin')->default(false);
             $table->string('status');
 
             $table->rememberToken();

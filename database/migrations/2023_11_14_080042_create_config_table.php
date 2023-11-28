@@ -13,11 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('channel', function (Blueprint $table) {
+        Schema::create('config', function (Blueprint $table) {
             $table->id();
-            $table->string('channel')->unique();
-            $table->string('name');
-            $table->boolean('status')->default(false);
+            $table->string('key')->unique();
+            $table->string('title')->nullable();
+            $table->string('group')->nullable();
+            $table->string('value')->nullable();
+            $table->string('type')->nullable();
+            $table->boolean('delete')->default(true);
             $table->timestamps();
         });
     }
@@ -29,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('nodes');
+        Schema::dropIfExists('config');
     }
 };

@@ -1,58 +1,19 @@
 <?php
 return [
-    'general_information' => [
-        [
-            'key'=>'LINK_FACEBOOK',
-            'type'=>'url',
-            'delete' => false
-        ],
-        [
-            'key'=>'PHONE_NUMBER',
-            'type'=>'phone',
-            'delete' => false
-        ],
-        [
-            'key'=>'EMAIL',
-            'type'=>'email',
-            'delete' => false
-        ],
-        [
-            'key'=>'ADDRESS',
-            'type'=>'text',
-            'delete' => false
-        ],
-        [
-            'key'=>'QR_PAYMENT',
-            'type'=>'file',
-            'delete' => false
-        ],
-        [
-            'key'=>'QR_ZALO',
-            'type'=>'file',
-            'delete' => false
-        ]
+    [
+        'key' => 'LOGO',
+        'group' => 'INFO',
+        'title' => '',
+        'value' => '',
+        'type' => 'text',
+        'delete' => '1',
     ],
-    'website_configuration' => [
-        [
-            'key'=>'LOGO',
-            'type'=>'file',
-            'delete' => false
-        ],
-        [
-            'key'=>'BACKGROUND_COLOR',
-            'type'=>'COLOR',
-            'delete' => false
-        ],
-        [
-            'key'=>'EMAIL',
-            'type'=>'text',
-            'delete' => false
-        ],
-        [
-            'key'=>'ADDRESS',
-            'type'=>'text',
-            'delete' => false
-        ]
-    ],
-
+    [
+        'key' => 'NAME_WEB',
+        'group' => 'INFO',
+        'title' => '',
+        'value' => '',
+        'type' => 'text',
+        'delete' => '1',
+    ]
 ];

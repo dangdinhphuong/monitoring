@@ -5,13 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Channel extends Model
+class Config extends Model
 {
     use HasFactory;
-    protected $table = 'channel';
+    protected $table = 'config';
     protected $fillable = [
-        'channel',
-        'name',
-        'status'
+        'key',
+        'group',
+        'title',
+        'value',
+        'type',
+        'delete'
     ];
 }

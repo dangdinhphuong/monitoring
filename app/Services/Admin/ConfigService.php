@@ -2,22 +2,22 @@
 
 namespace App\Services\Admin;
 
-use App\Models\config;
+use App\Models\Config;
 
 class ConfigService
 {
     protected $config;
     protected $filepath = 'public/images/configs';
 
-    public function __construct(config $config)
+    public function __construct(Config $config)
     {
         $this->config = $config;
     }
 
     /**
-     * @return config
+     * @return Config
      */
-    public function getConfigByKey($key): config
+    public function getConfigByKey($key): Config
     {
         $config = $this->config->where('key', $key)->first();
         return $config ?? [] ;
