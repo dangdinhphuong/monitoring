@@ -23,18 +23,14 @@ Route::name('admin.')->middleware('AdminLogin')->prefix('')->group(function () {
         Route::post('/{id}', [ConfigController::class, 'update'])->name('setting-update');
     });
     Route::prefix('user')->group(function () {
-        Route::get('', [UserController::class, 'index'])->name('user');
-        Route::get('/create', [UserController::class, 'create'])->name('user-create');
-        Route::post('/create', [UserController::class, 'store']);
+        Route::middleware('IsAdmin')->group(function () {
+            Route::get('', [UserController::class, 'index'])->name('user');
+            Route::get('/create', [UserController::class, 'create'])->name('user-create');
+            Route::post('/create', [UserController::class, 'store']);
+            Route::get('/profile', [UserController::class, 'profile'])->name('profile');
+            Route::post('/changePassword', [UserController::class, 'changePassword'])->name('changePassword');
+        });
         Route::get('/update/{id}', [UserController::class, 'edit'])->name('user-update');
         Route::post('/update/{id}', [UserController::class, 'update']);
-        Route::get('/profile', [UserController::class, 'profile'])->name('profile');
-        Route::post('/changePassword', [UserController::class, 'changePassword'])->name('changePassword');
-        // Route::get('ajax', 'UserController@ajax')->name('user.ajax');
-        // Route::get('create', 'UserController@create')->name('user.create');
-        // Route::get('edit', 'UserController@edit')->name('user.edit');
-        // Route::get('destroy', 'UserController@destroy')->name('user.destroy');
-        // Route::post('store', 'UserController@store')->name('user.store');
-        // Route::post('update/{id}', 'UserController@update')->name('user.update');
     });
 });

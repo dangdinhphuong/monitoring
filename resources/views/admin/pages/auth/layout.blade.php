@@ -63,15 +63,21 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @if(session('error'))
     <script>
-        swal("Thất bại", " {!! session('error') !!}", "error", {
-            button: "OK",
-        })
+        Swal.fire("Thất bại", " {!! session('error') !!}", "error");
     </script>
 @endif
 @if(session('message'))
     <script>
-        swal("Hành động", " {!! session('message') !!}", "error", {
-            button: "OK",
+        Swal.fire("Hành động", " {!! session('message') !!}", "success");
+    </script>
+@endif
+@if(session('retriesLeft')&& (int)session('retriesLeft') > 0)
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Đăng nhập sai...',
+            text: 'Bạn còn {!! session('retriesLeft') !!} lượt đăng nhập tài khoản (*)!',
+            footer: ''
         })
     </script>
 @endif

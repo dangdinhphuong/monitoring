@@ -49,7 +49,7 @@
     @yield('content')
 </div>
 <script>
-   logo = '{!! configByKeyHelper('LOGO')->value !!}';
+    logo = '{!! configByKeyHelper('LOGO')->value !!}';
 </script>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -66,7 +66,18 @@
 @yield('javascript')
 <script>
     $(".page-loader-wrapper").fadeOut()
+
 </script>
+@if(session('error'))
+    <script>
+        Swal.fire("Thất bại", " {!! session('error') !!}", "error");
+    </script>
+@endif
+@if(session('message'))
+    <script>
+        Swal.fire("Hành động", " {!! session('message') !!}", "success");
+    </script>
+@endif
 </body>
 
 </html>

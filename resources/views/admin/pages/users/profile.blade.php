@@ -34,7 +34,7 @@
 
                                     <div class="card  col-3">
                                         <div class="mt-3 " style="width: 100%; text-align: center; display: block; " id="imgavatar1">
-                                            <img src="{{ asset('storage/' . $users->avatar) }}" style=" width: 100%;  border: 2px solid #a1a1a1;" >
+                                            <img src="{{ Avatar::create($users->fullname)->toBase64() }}" style=" width: 100%;  border: 2px solid #a1a1a1;" >
                                         </div>
                                     </div>
                                     <div class="card shadow mb-4  col-8">
@@ -79,7 +79,7 @@
                                                         </span>
                                                         @enderror
                                                     </div>
-                                
+
                                                 </div>
                                                 <div class="form-group row ">
                                                     <div class=" col-sm-6 ">
@@ -113,7 +113,7 @@
                                                           </button>
                                                         </h5>
                                                       </div>
-                                                  
+
                                                       <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
                                                         <div class="card-body">
                                                             <form  action="{{ route('admin.changePassword')}}" method="POST">
@@ -146,7 +146,7 @@
                                                                         </span>
                                                                         @enderror
                                                                     </div>
-                                                                   
+
                                                                 </div>
                                                                 <br>
                                                                 <div class="col-12">
@@ -157,7 +157,7 @@
                                                       </div>
                                                     </div>
                                                   </div>
-                                 
+
 
                                             </div>
                                         </div>

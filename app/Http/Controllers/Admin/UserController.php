@@ -99,6 +99,15 @@ class UserController extends Controller
         }
         return redirect()->back();
     }
+    public function checkadmin($id)
+    {
+        $users = User::find($id);
+
+        if ($users) {
+            return view('admin.pages.users.edit', compact('users'));
+        }
+        return redirect()->back();
+    }
     public function update(Request $request, $id)
     {
         $user = User::find($id);

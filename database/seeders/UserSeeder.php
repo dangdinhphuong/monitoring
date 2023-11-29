@@ -26,6 +26,7 @@ class UserSeeder extends Seeder
                 'address'=> "238 au cơ",
                 'phone' => "0976594507",
                 'status' => 1,
+                'is_admin' => true,
             ]);
         }
 

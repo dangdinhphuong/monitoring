@@ -76,8 +76,10 @@ class LoginController extends Controller
     public function forGotPassword(){
         return view('admin.pages.auth.forgot_password');
     }
-    public function SentPassword()
+
+    public function sentPassword(RateLimiter $limiter)
     {
+
         request()->validate([
             'email' => 'email|required|exists:users,email',
         ], [
@@ -85,12 +87,27 @@ class LoginController extends Controller
             'email.email' => 'Email không hợp lệ, Xin vui lòng thử lại!!',
             'email.exists' => 'Email chưa được đăng ký!!'
         ]);
-        $PasswordReset = User::where('email', request('email'))->first();
-        $data['password'] =  Str::random(15);
-        $data['user'] = $PasswordReset;
-      //  $PasswordReset->update(['password'=> $data['password']]);
-      //  return view('admin.pages.TemplateMail.forgetpass', compact('data'));
+
+        // Kiểm tra xem người dùng đã vượt quá số lần gửi trong một ngày hay chưa
+        if ($limiter->tooManyAttempts($this->getThrottleKey(), $this->maxAttempts)) {
+            return redirect()->back()->with('error', 'Bạn đã vượt quá số lượng yêu cầu trong một ngày.');
+        }
+
+        $passwordReset = User::where('email', request('email'))->first();
+        $data['password'] = Str::random(15);
+        $data['user'] = $passwordReset;
+        $passwordReset->update(['password' => bcrypt($data['password'])]);
+
         Mail::to(request('email'))->send(new ForgetPassMail($data));
-//        return view('admin.pages.auth.ForgetPassword')->with('message', ' Yêu cầu đã được giửi đi vui lòng kiêm tra email');
+
+        // Tăng số lần gửi và đặt thời gian hết hạn là 1 ngày
+        $limiter->hit($this->getThrottleKey(), 1 * 60);
+
+        return redirect()->back()->with('message', 'Yêu cầu đã được gửi đi, vui lòng kiểm tra email');
+    }
+
+    private function getThrottleKey()
+    {
+        return 'password_reset_' . request('email');
     }
 }

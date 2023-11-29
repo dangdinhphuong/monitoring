@@ -4,7 +4,7 @@ return [
         'key' => 'LOGO',
         'group' => 'INFO',
         'title' => '',
-        'value' => '',
+        'value' => 'https://wrraptheme.com/templates/hexabit/html/assets/images/icon-dark.svg',
         'type' => 'text',
         'delete' => '1',
     ],
