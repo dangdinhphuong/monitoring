@@ -90,7 +90,7 @@ class LoginController extends Controller
         ]);
 
         // Kiểm tra xem người dùng đã vượt quá số lần gửi trong một ngày hay chưa
-        if ($limiter->tooManyAttempts($this->getThrottleKey(), $this->maxAttempts)) {
+        if (RateLimiter::tooManyAttempts($this->getThrottleKey(), $this->maxAttempts)) {
             return redirect()->back()->with('error', 'Bạn đã vượt quá số lượng yêu cầu trong một ngày.');
         }
 
@@ -102,7 +102,7 @@ class LoginController extends Controller
         Mail::to(request('email'))->send(new ForgetPassMail($data));
 
         // Tăng số lần gửi và đặt thời gian hết hạn là 1 ngày
-        $limiter->hit($this->getThrottleKey(), 1 * 60);
+        RateLimiter::hit($this->getThrottleKey(), 1 * 60);
 
         return redirect()->back()->with('message', 'Yêu cầu đã được gửi đi, vui lòng kiểm tra email');
     }
