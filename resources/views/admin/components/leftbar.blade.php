@@ -39,16 +39,19 @@
                             <i class="icon-tag"></i><span>Channels</span>
                         </a>
                     </li>
+                    @if(auth()->user()->is_admin)
                     <li class="{{ request()->routeIs('admin.setting') ? 'active' : '' }}">
                         <a href="{{ route('admin.setting') }}">
                             <i class="icon-puzzle"></i><span>Environment</span>
                         </a>
                     </li>
+                    
                     <li class="{{ request()->routeIs('admin.user') ? 'active' : '' }}">
                         <a href="{{ route('admin.user') }}">
                             <i class="icon-lock"></i><span>User</span>
                         </a>
                     </li>
+                    @endif
 
 
 

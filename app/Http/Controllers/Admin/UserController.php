@@ -92,6 +92,9 @@ class UserController extends Controller
 
     public function edit($id)
     {
+        if(! auth()->user()->is_admin && auth()->user()->id != $id ){
+            return abort('403');
+        }
         $users = User::find($id);
 
         if ($users) {
