@@ -42,8 +42,12 @@
                             <div class="form-row col-lg-6 col-6">
                                 <div class="col">
                                     <select class="form-control" id="typeChart" onchange="changeType()">
-                                        <option value='line' {{ !empty($_GET['type']) && $_GET['type'] == 'line' ? 'selected ' : ''}}>Line</option>
-                                        <option value='bar' {{ !empty($_GET['type']) && $_GET['type'] == 'bar' ? 'selected ' : ''}}>Bar</option>
+                                        <option value='line'
+                                            {{ !empty($_GET['type']) && $_GET['type'] == 'line' ? 'selected ' : '' }}>Line
+                                        </option>
+                                        <option value='bar'
+                                            {{ !empty($_GET['type']) && $_GET['type'] == 'bar' ? 'selected ' : '' }}>Bar
+                                        </option>
                                     </select>
                                 </div>
                                 <div class="col">
@@ -75,13 +79,16 @@
         var dataMonitoring = [];
         var dataset = [];
         var defaultField = '';
-        var typeChart = {!! json_encode(!empty($_GET['type']) ? $_GET['type'] : "line") !!};
-
+        var typeChart = {!! json_encode(!empty($_GET['type']) ? $_GET['type'] : 'line') !!};
+        var allChannel = {!! json_encode($channels) !!}
 
         window.addEventListener('resize', function() {
             location.reload();
         });
         action();
+        setInterval(function() {
+            action();
+        }, 10000);
 
         function changeType() {
             typeChart = $("#typeChart").val();
@@ -90,11 +97,12 @@
         }
 
         function action() {
-            const id = $('#channels').val();
-            const apiURL = 'https://api.thingspeak.com/channels/' + id + '/feed.json';
-            const apiKey = 'M18ETIVKUBNO8P5I';
-            const results = 10;
 
+            const id = $('#channels').val();
+            const channel = allChannel.find(item => item.channel == id);
+            const apiURL = 'https://api.thingspeak.com/channels/' + id + '/feed.json';
+            const apiKey = channel ? channel.api_key : 'M18ETIVKUBNO8P5I';
+            const results = 10;
             // Gọi fetchDataFromApi và sau đó sử dụng dữ liệu trả về
             fetchDataFromApi(apiURL, apiKey, results)
                 .then(response => {
@@ -104,15 +112,11 @@
                     });
 
                     dataMonitoring = response;
-                    console.log(response);
                     // Gọi các hàm sử dụng dữ liệu ở đây
                     renderFields();
-                    console.log("Channel Info:", dataMonitoring.channel);
-                    console.log("Feeds:", dataMonitoring.feeds);
                 })
                 .catch(error => {
                     toastr.error('Không thể tải dữ liệu ');
-                    console.error('Error:', error);
                 });
         }
 
@@ -141,6 +145,7 @@
 
         function renderFields() {
             var feed = getLatestFeed(dataMonitoring.feeds);
+            dataset = [];
             renderHtml = ``;
             for (var key in dataMonitoring.channel) {
                 if (dataMonitoring.channel.hasOwnProperty(key) && key.startsWith('field')) {
@@ -151,7 +156,7 @@
                 }
             }
             $('#fields').html(renderHtml);
-            console.log(dataset);
+
             if (defaultField == '') {
                 updateChart(dataset, typeChart, arrayField("created_at", 'time'))
             } else {
@@ -207,6 +212,7 @@
             // Chuyển đổi chuỗi thời gian từ định dạng ISO 8601 sang "d/m/Y - H:i:s"
             return moment(isoString).format(type);
         }
+
         function setParam(key, value) {
             // Lấy tham số từ URL
             var currentUrl = window.location.href;
@@ -226,6 +232,7 @@
             // Cập nhật URL
             window.history.replaceState({}, document.title, newUrl);
         }
+
         function getParameterByName(name, url) {
             if (!url) url = window.location.href;
             name = name.replace(/[\[\]]/g, "\\$&");
@@ -240,6 +247,7 @@
     <script>
         function showDefaultField(field) {
             defaultField = field;
+
             if (defaultField == '') {
                 updateChart(dataset, typeChart, arrayField("created_at", 'time'))
             } else {
@@ -248,6 +256,7 @@
                 });
                 updateChart(datasetField, typeChart, arrayField("created_at", 'time'))
             }
+
         }
 
         function updateChart(dataset, typeChart, time) {

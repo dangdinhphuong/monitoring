@@ -92,6 +92,10 @@
                             <label>Channel</label>
                             <input type="number" name="channel" class="form-control" required>
                         </div>
+                        <div class="form-group">
+                            <label>Api key</label>
+                            <input type="text" name="api_key" class="form-control" required>
+                        </div>
                         <div class="form-check form-switch">
                             <label class="fancy-radio"><input name="status" value="0"
                                     type="radio"><span><i></i>DISCONECT</span></label>
@@ -126,6 +130,10 @@
                         <div class="form-group">
                             <label>Channel</label>
                             <input type="number" name="channel" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Api key</label>
+                            <input type="text" name="api_key" class="form-control" required>
                         </div>
                         <div class="form-check form-switch">
                             <label class="fancy-radio"><input name="status" value="0"
@@ -217,8 +225,10 @@
             var formData = {
                 name: $('#createNotes input[name="name"]').val(),
                 channel: $('#createNotes input[name="channel"]').val(),
-                status: $('#createNotes input[name="status"]:checked').val()
+                status: $('#createNotes input[name="status"]:checked').val(),
+                api_key: $('#createNotes input[name="api_key"]').val(),
             };
+            
 
             // Send Ajax request
             $.ajax({
@@ -267,7 +277,9 @@
                 id: $('#editNotes input[name="id"]').val(),
                 name: $('#editNotes input[name="name"]').val(),
                 channel: $('#editNotes input[name="channel"]').val(),
-                status: $('#editNotes input[name="status"]:checked').val()
+                status: $('#editNotes input[name="status"]:checked').val(),
+                api_key: $('#editNotes input[name="api_key"]').val(),
+                
             };
 
             // Send Ajax request

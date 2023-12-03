@@ -21,12 +21,14 @@ class ChanelController extends Controller
             'name' => 'required',
             'channel' => 'required|unique:channel',
             'status' => 'required|in:0,1',
+            'api_key' => 'required',
         ], [
             'name.required' => 'Vui lòng nhập dữ liệu name',
             'channel.required' => 'Vui lòng nhập dữ liệu channel',
             'channel.unique' => 'Dữ liệu channel đã tồn tại',
             'status.required' => 'Vui lòng chọn trạng thái (DISCONECT hoặc CONNECT)',
             'status.in' => 'Trạng thái phải không hợp lệ',
+            'api_key.required' => 'Vui lòng nhập dữ liệu api key',
         ]);
 
         if ($validator->fails()) {
@@ -53,12 +55,14 @@ class ChanelController extends Controller
             'id' => 'required',
             'channel' => 'required|unique:channel,channel,' . $request->id,
             'status' => 'required|in:0,1',
+            'api_key' => 'required',
         ], [
             'name.required' => 'Vui lòng nhập dữ liệu name',
             'channel.required' => 'Vui lòng nhập dữ liệu channel',
             'channel.unique' => 'Dữ liệu channel đã tồn tại',
             'status.required' => 'Vui lòng chọn trạng thái (DISCONECT hoặc CONNECT)',
             'status.in' => 'Trạng thái phải không hợp lệ',
+            'api_key.required' => 'Vui lòng nhập dữ liệu api key',
         ]);
         if ($validator->fails()) {
             // Nếu xác thực thất bại, trả về phản hồi JSON với thông báo lỗi

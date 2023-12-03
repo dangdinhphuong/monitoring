@@ -12,6 +12,7 @@ class Channel extends Model
     protected $fillable = [
         'channel',
         'name',
-        'status'
+        'status',
+        'api_key'
     ];
 }
