@@ -17,7 +17,7 @@ Route::name('admin.')->middleware('AdminLogin')->prefix('')->group(function () {
     Route::get('/', [DashboadContrller::class, 'index'])->name('dashboad');
     Route::get('channel', [ChanelController::class, 'index'])->name('channel-list');
     Route::get('table', [TableController::class, 'index'])->name('table-list');
-    Route::prefix('/setting')->middleware('IsAdmin')->group(function () {
+    Route::prefix('/setting')->group(function () {
         Route::get('', [ConfigController::class, 'index'])->name('setting');
         Route::post('', [ConfigController::class, 'store'])->name('setting-store');
         Route::post('/{id}', [ConfigController::class, 'update'])->name('setting-update');
@@ -28,8 +28,8 @@ Route::name('admin.')->middleware('AdminLogin')->prefix('')->group(function () {
             Route::get('/create', [UserController::class, 'create'])->name('user-create');
             Route::post('/create', [UserController::class, 'store']);
         });
-        Route::get('/profile', [UserController::class, 'profile'])->name('profile');
-        Route::post('/changePassword', [UserController::class, 'changePassword'])->name('changePassword');
+           Route::get('/profile', [UserController::class, 'profile'])->name('profile');
+            Route::post('/changePassword', [UserController::class, 'changePassword'])->name('changePassword');
         Route::get('/update/{id}', [UserController::class, 'edit'])->name('user-update');
         Route::post('/update/{id}', [UserController::class, 'update']);
     });

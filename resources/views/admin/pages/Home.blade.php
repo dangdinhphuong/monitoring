@@ -91,7 +91,7 @@
 
         function action() {
             const id = $('#channels').val();
-            const apiURL = 'https://api.thingspeak.com/channels/' + id + '/fields/1.json';
+            const apiURL = 'https://api.thingspeak.com/channels/' + id + '/feed.json';
             const apiKey = 'M18ETIVKUBNO8P5I';
             const results = 10;
 
