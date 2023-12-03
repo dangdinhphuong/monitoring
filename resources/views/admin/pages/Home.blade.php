@@ -86,9 +86,9 @@
             location.reload();
         });
         action();
-        setInterval(function() {
-            action();
-        }, 10000);
+        // setInterval(function() {
+        //     action();
+        // }, 10000);
 
         function changeType() {
             typeChart = $("#typeChart").val();
