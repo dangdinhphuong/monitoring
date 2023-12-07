@@ -90,7 +90,7 @@
         if (statusSeInterval) {
             setInterval(function() {
                 actionSetTimeOut();
-            }, 30000);
+            }, 10000);
         }
 
 
