@@ -76,19 +76,93 @@
 
 @section('javascript')
     <script>
-        var dataMonitoring = [];
+        var dataMonitoring = dataMonitoringTimeOut = [];
         var dataset = [];
+        var dataTime = [];
         var defaultField = '';
         var typeChart = {!! json_encode(!empty($_GET['type']) ? $_GET['type'] : 'line') !!};
         var allChannel = {!! json_encode($channels) !!}
-
+        var statusSeInterval = true;
         window.addEventListener('resize', function() {
             location.reload();
         });
-        action();
-        // setInterval(function() {
-        //     action();
-        // }, 10000);
+        action()
+        if (statusSeInterval) {
+            setInterval(function() {
+                actionSetTimeOut();
+            }, 30000);
+        }
+
+
+        function actionSetTimeOut() {
+
+            const id = $('#channels').val();
+            const channel = allChannel.find(item => item.channel == id);
+            const apiURL = 'https://api.thingspeak.com/channels/' + id + '/feed.json';
+            const apiKey = channel ? channel.api_key : 'M18ETIVKUBNO8P5I';
+            const results = 1;
+            // Gọi fetchDataFromApi và sau đó sử dụng dữ liệu trả về
+            fetchDataFromApi(apiURL, apiKey, results)
+                .then(response => {
+                    // Sắp xếp mảng feeds theo thứ tự tăng dần của entry_id
+                    response.feeds.sort(function(a, b) {
+                        return a.entry_id - b.entry_id;
+                    });
+                    if (
+                        response.feeds &&
+                        response.feeds[0] &&
+                        response.feeds[0].entry_id &&
+                        dataMonitoring.feeds &&
+                        dataMonitoring.feeds[0] &&
+                        dataMonitoring.feeds[0].entry_id &&
+                        response.feeds[0].entry_id != dataMonitoring.feeds[0].entry_id
+                    ) {
+                        renderFieldsSetTimeOut(response);
+                    }
+
+                })
+                .catch(error => {
+                    console.error(error)
+                    toastr.error('Không thể tải dữ liệu ');
+                    statusSeInterval = false;
+                });
+        }
+
+        function renderFieldsSetTimeOut(response) {
+            renderHtml = ``;
+            var feed = getLatestFeed(response.feeds);
+            for (const key in response.channel) {
+                if (key.includes("field")) {
+                    if (feed[key] != null) {
+                        var resultIndex = dataset.findIndex(item => item.label === response.channel[key]);
+                        if (resultIndex !== -1) {
+                            dataset[resultIndex].data.unshift("" + feed[key] + "");
+                            dataset[resultIndex].data.pop();
+                        }
+                    }
+                    renderHtml +=
+                        `<li><i class=" m-r-5"></i> ${response.channel[key]} aaa: <span class="badge badge-primary" onclick="showDefaultField('${response.channel[key]}')"><a href="javascript:void(0);">${feed[key] ?? null}</a></span></li>`
+                }
+
+            }
+            $('#fields').html(renderHtml);
+            dataTime.unshift(formatISO8601Date(feed["created_at"]), 'H:mm');
+            dataTime.pop();
+            updateChartSetTimeOut(dataset, typeChart, dataTime)
+        }
+
+        function updateChartSetTimeOut(dataset, typeChart, time) {
+            // Thêm dữ liệu mới
+            myChart.type = typeChart;
+            myChart.data.datasets = dataset;
+
+            // Cập nhật biểu đồ
+            myChart.update();
+        }
+
+
+
+
 
         function changeType() {
             typeChart = $("#typeChart").val();
@@ -102,7 +176,7 @@
             const channel = allChannel.find(item => item.channel == id);
             const apiURL = 'https://api.thingspeak.com/channels/' + id + '/feed.json';
             const apiKey = channel ? channel.api_key : 'M18ETIVKUBNO8P5I';
-            const results = 10;
+            const results = 20;
             // Gọi fetchDataFromApi và sau đó sử dụng dữ liệu trả về
             fetchDataFromApi(apiURL, apiKey, results)
                 .then(response => {
@@ -112,11 +186,12 @@
                     });
 
                     dataMonitoring = response;
-                    // Gọi các hàm sử dụng dữ liệu ở đây
+
                     renderFields();
                 })
                 .catch(error => {
                     toastr.error('Không thể tải dữ liệu ');
+                    statusSeInterval = false;
                 });
         }
 
@@ -177,7 +252,7 @@
         function arrayField(targetField, dataType = 'text') {
             return dataMonitoring.feeds.map(function(entry) {
                 if (dataType == 'time') {
-                    return formatISO8601Date(entry[targetField])
+                    return entry[targetField]
                 } else {
                     return entry[targetField];
                 }
@@ -259,18 +334,59 @@
 
         }
 
+        function formatTime(timestamp) {
+            const date = new Date(timestamp);
+            const hours = date.getHours().toString().padStart(2, '0');
+            const minutes = date.getMinutes().toString().padStart(2, '0');
+            return `${hours}:${minutes}`;
+        }
+
+        // Hàm định dạng ngày theo định dạng yyyy/m/d - H:mm:ss
+        function formatDate(timestamp, format) {
+            const date = new Date(timestamp);
+            const year = date.getFullYear();
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const day = date.getDate().toString().padStart(2, '0');
+            const hours = date.getHours().toString().padStart(2, '0');
+            const minutes = date.getMinutes().toString().padStart(2, '0');
+            const seconds = date.getSeconds().toString().padStart(2, '0');
+            return format
+                .replace('YYYY', year)
+                .replace('M', month)
+                .replace('D', day)
+                .replace('H', hours)
+                .replace('mm', minutes)
+                .replace('ss', seconds);
+        }
+
         function updateChart(dataset, typeChart, time) {
             // Xóa dữ liệu cũ
             myChart.data.labels = [];
             myChart.data.datasets = [];
+            dataTime = time;
 
             // Thêm dữ liệu mới
             myChart.type = 'bar';
-            myChart.data.labels = time;
+            myChart.data.labels = time.map(function(timestamp) {
+                // Định dạng nhãn trục x theo H:mm
+                return formatISO8601Date(timestamp,'H:mm');
+
+            });
+
             myChart.data.datasets = dataset;
 
             // Cập nhật biểu đồ
             myChart.update();
+
+            // Cập nhật tooltip
+            myChart.options.plugins.tooltip.callbacks.title = function(context) {
+                // Định dạng tiêu đề theo yyyy/m/d - H:mm:ss
+                indexTime = context[0].dataIndex
+                return formatISO8601Date(time[indexTime]);
+            };
+
+            // Vẽ lại biểu đồ để áp dụng thay đổi tooltip
+            myChart.draw();
         }
         // Ví dụ về cách sử dụng
         const myChart = new Chart($('#myChart'), {
@@ -278,8 +394,8 @@
             data: {
                 labels: ["Label 1", "Label 2", "Label 3"],
                 datasets: [{
-                    label: [],
-                    data: [],
+                    label: ['aaaaa'],
+                    data: [12, 15, 65, 25],
                     backgroundColor: 'rgba(255, 99, 132, 0.2)',
                     borderColor: 'rgba(255, 99, 132, 1)',
                     borderWidth: 1
@@ -290,9 +406,20 @@
                     y: {
                         beginAtZero: true
                     }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            title: function(context) {
+                                return 'xin chào';
+                            }
+                        }
+                    }
                 }
             }
         });
+
+
         //  time 
 
         setInterval(this.displayCurrentTime, 1000);

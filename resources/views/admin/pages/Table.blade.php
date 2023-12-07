@@ -88,6 +88,7 @@
     <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker3.min.css') }}">
     <script src="{{ asset('assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
     <script>
+        var allChannel = {!! json_encode($channels) !!}
         $("#results-input").on("keypress", function(event) {
             var key = event.which;
             if (key < 48 || key > 57) {
@@ -125,9 +126,10 @@
 
         function action() {
             const id = $('#channels').val();
+            const channel = allChannel.find(item => item.channel == id);
             const apiURL = `https://api.thingspeak.com/channels/${id}/fields/1.json`;
-            const apiKey = 'M18ETIVKUBNO8P5I';
-            const results = 10;
+            const apiKey = channel ? channel.api_key : 'M18ETIVKUBNO8P5I';
+            const results = 20;
             // Gọi fetchDataFromApi và sau đó sử dụng dữ liệu trả về
             fetchDataFromApi(apiURL, apiKey, results)
                 .then(response => {
