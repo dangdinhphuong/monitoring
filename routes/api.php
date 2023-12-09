@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChanelController;
 use App\Http\Controllers\Admin\ConfigController;
+use App\Http\Controllers\VnPayController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -29,3 +30,5 @@ Route::middleware(['noauth'])->group(function () {
     Route::delete('/{id}', [ConfigController::class, 'delete']);
 });
 });
+
+Route::get('vn-pay', [VnPayController::class, 'create']);
