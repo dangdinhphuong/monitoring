@@ -81,7 +81,7 @@ class VnPayController extends Controller
             $vnpSecureHash =   hash_hmac('sha512', $hashdata, $vnp_HashSecret);//  
             $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
         }
-        return $vnp_Url;
+        return response()->json(['data' => $vnp_Url], 200);
     }
 }
 
